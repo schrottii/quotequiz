@@ -1,0 +1,10 @@
+body {
+    background-color: darkseagreen;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+
+.currentQuote {
+    font-size: 40px;
+}
