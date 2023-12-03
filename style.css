@@ -25,3 +25,12 @@ button{
     font-size: 20px;
     text-align: left;
 }
+
+.answerButton{
+    background-color: darkslategray;
+    color: navajowhite;
+    font-size: 24px;
+    width: 40%;
+    margin-right: 4px;
+    min-height: 64px;
+}

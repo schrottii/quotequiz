@@ -8,9 +8,15 @@
 <body>
     <h1>QuoteQuiz</h1>
 
+    <h2>Play</h2>
     <button id="startButton" onclick="start()">Start Game</button><br />
     <span id="infoDisplay" class="info"></span> <br />
-    <span id="quoteDisplay" class="currentQuote"></span>
+    <div id="playArea" style="display: none">
+        <span id="quoteDisplay" class="currentQuote"></span>
+        <div id="answerButtons"></div>
+    </div>
+    <span id="bottomInfo" class="info"></span> <br />
+
 
     <script src="code/quotes.js"></script>
     <script src="code/main.js"></script>
