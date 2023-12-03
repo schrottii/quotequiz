@@ -2,9 +2,26 @@ body {
     background-color: darkseagreen;
     color: white;
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
+    font: Rw;
+    font-family: Rw;
+}
+
+@font-face {
+    font-family: Rw;
+    src: url(Raleway-Medium.ttf) format('truetype');
+}
+
+button{
+    font-size: 24px;
 }
 
 .currentQuote {
-    font-size: 40px;
+    font-size: 24px;
+}
+
+.info{
+    background-color: brown;
+    font-size: 20px;
+    text-align: left;
 }
