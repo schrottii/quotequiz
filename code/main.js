@@ -12,6 +12,10 @@ var ui = {
     startButton: document.getElementById("startButton"),
     answerButtons: document.getElementById("answerButtons"),
     nameButton: document.getElementById("nameButton"),
+    exportButton: document.getElementById("exportButton"),
+    importButton: document.getElementById("importButton"),
+    resetButton: document.getElementById("resetButton"),
+    nsfwButton: document.getElementById("nsfwButton"),
 
     playArea: document.getElementById("playArea"),
 }
@@ -41,11 +45,23 @@ var save = {
     id: "",
     trophies: 0,
     startver: "0",
+    stats: {
+        totalGames: 0,
+        totalAnswered: 0,
+        totalRight: 0,
+        totalWrong: 0,
+    },
+    settings: {
+        nsfw: false,
+    },
     answers: {
 
     }
 }
-var backupEmptySave = save;
+var backupEmptySave = {};
+for (e in save) {
+    backupEmptySave[e] = save[e];
+}
 
 function start() {
     currentGame.active = true;
@@ -55,7 +71,12 @@ function start() {
     currentGame.questionsWrong = 0;
     currentGame.trophiesBefore = save.trophies;
 
+    save.stats.totalGames += 1;
+
     ui.startButton.style.display = "none";
+    ui.exportButton.style.display = "none";
+    ui.importButton.style.display = "none";
+    ui.resetButton.style.display = "none";
     ui.playArea.style.display = "";
 
     roundStart();
@@ -76,6 +97,8 @@ function roundStart() {
 function roundWon() {
     currentGame.questionCount += 1;
     currentGame.questionsRight += 1;
+    save.stats.totalAnswered += 1;
+    save.stats.totalRight += 1;
 
     if (save.answers[currentGame.currentQuote] != undefined) {
         // Was answered before
@@ -94,6 +117,8 @@ function roundWon() {
 function roundLost() {
     currentGame.questionCount += 1;
     currentGame.questionsWrong += 1;
+    save.stats.totalAnswered += 1;
+    save.stats.totalWrong += 1;
 
     if (save.answers[currentGame.currentQuote] != undefined) {
         // Was answered before
@@ -110,6 +135,9 @@ function end() {
     currentGame.active = false;
 
     ui.startButton.style.display = "";
+    ui.exportButton.style.display = "";
+    ui.importButton.style.display = "";
+    ui.resetButton.style.display = "";
     ui.playArea.style.display = "none";
 
     let trophyDifference = (save.trophies - currentGame.trophiesBefore);
@@ -119,7 +147,10 @@ function end() {
 }
 
 function pickQuote() {
-    currentGame.currentQuote = quotes[Math.floor(quotes.length * Math.random())].id;
+    currentGame.currentQuote = "";
+    while (currentGame.currentQuote == "" || (getQuote(currentGame.currentQuote).nsfw && !save.settings.nsfw)) {
+        currentGame.currentQuote = quotes[Math.floor(quotes.length * Math.random())].id;
+    }
     if (save.answers[currentGame.currentQuote] == undefined) save.answers[currentGame.currentQuote] = [0, 0, 0];
 }
 
@@ -159,6 +190,11 @@ function changePlayerName() {
     save.name = prompt("New name?").substr(0, 12);
 }
 
+function toggleNSFW() {
+    save.settings.nsfw = !save.settings.nsfw;
+    updateSettings();
+}
+
 // Update functions
 function updateButtons() {
     let render = "";
@@ -169,6 +205,11 @@ function updateButtons() {
     }
 
     ui.answerButtons.innerHTML = render;
+}
+
+function updateSettings() {
+    if (save.settings.nsfw) ui.nsfwButton.innerHTML = "NSFW [ON]";
+    else ui.nsfwButton.innerHTML = "NSFW [OFF]";
 }
 
 function updateUI() {
@@ -193,19 +234,24 @@ function newSave() {
     saveSave();
 }
 
-function loadSave() {
-    let loadingSave = localStorage.getItem("QUOTEQUIZ");
+function loadSave(origin = "none") {
+    let loadingSave = "";
+    if (origin == "none") loadingSave = localStorage.getItem("QUOTEQUIZ");
+    else loadingSave = origin;
+
     try {
         loadingSave = loadingSave.replace("wiXcHtUr", "wi");
         loadingSave = loadingSave.replace("quQisv", "ey");
         loadingSave = atob(loadingSave);
         loadingSave = JSON.parse(loadingSave);
 
-        save = loadingSave;
+        for (e in loadingSave) {
+            save[e] = loadingSave[e];
+        }
     }
     catch {
         alert("Something went wrong while trying to load a save!");
-        newSave();
+        if(origin == "none") newSave();
     }
 }
 
@@ -218,9 +264,33 @@ function saveSave() {
         savingSave = savingSave.replace("wi", "wiXcHtUr");
 
         localStorage.setItem("QUOTEQUIZ", savingSave);
+
+        return savingSave;
     }
     catch {
         alert("Something went wrong while trying to save a save!");
+    }
+}
+
+function exportSave() {
+    let toExport = saveSave();
+    navigator.clipboard.writeText(toExport);
+}
+
+function importSave() {
+    let toImport = prompt("Paste your save here...");
+    if (toImport == undefined) return false;
+    newSave();
+    loadSave(toImport);
+}
+
+function resetSave() {
+    if (confirm("Are you really sure you want to delete your save?")) {
+        if (confirm("You will lose everything! Consider exporting your save first!")) {
+            if (confirm("If you press yes again everything will be gone!!!!!!!!!!")){
+                newSave();
+            }
+        }
     }
 }
 
@@ -258,4 +328,6 @@ else {
     newSave();
 }
 
+// Start game
+updateSettings();
 window.requestAnimationFrame(loop);

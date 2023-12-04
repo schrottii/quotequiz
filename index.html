@@ -20,17 +20,23 @@
     <h2>Player</h2>
     <span id="playerInfo" class="info"></span> <br />
     <button id="nameButton" onclick="changePlayerName()">Change Name</button><br />
+    <button id="exportButton" onclick="exportSave()">Export Save</button>
+    <button id="importButton" onclick="importSave()">Import Save</button>
+    <button id="resetButton" onclick="resetSave()">Delete Save</button><br />
+    <button id="nsfwButton" onclick="toggleNSFW()">NSFW</button><br />
 
     <h2>How to Play</h2>
     1. Click "Start Game" to start a game, containing 20 rounds!<br />
     2. In each round, a quote is presented, and 4 buttons of people who might have said it. Only one option is correct.<br />
-    3. Each round has a time limit of 10 seconds. Trophies received are based on the answer speed, ranging from 1 to 10 (if faster than 1 second)<br />
+    3. Each round has a time limit of 10 seconds. Trophies received are based on the answer speed, ranging from 1 to 10 (faster than 1 second)<br />
     4. Answering incorrectly or letting the time run out takes the trophies from the question away. Answering slower does not.<br />
     Have fun!
 
     <h2>Credits</h2>
     Game made by Schrottii (started on 2023-12-02)<br />
+    Version 1.0 (released on 2023-12-04)<br />
     Quotes collected by Schrottii and shgabb<br />
+    Inspired by shgabb and Playwo<br /><br />
     <a href="https://schrottii.github.io/">Click here to see my other games!</a>
 
     <script src="code/quotes.js"></script>
