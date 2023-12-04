@@ -1,4 +1,4 @@
-// Quote Quiz
+﻿// Quote Quiz
 
 // Main Script
 
@@ -50,7 +50,7 @@ var backupEmptySave = save;
 function start() {
     currentGame.active = true;
     currentGame.totalTime = 0;
-    currentGame.questionCount = 0;
+    currentGame.questionCount = 1;
     currentGame.questionsRight = 0;
     currentGame.questionsWrong = 0;
     currentGame.trophiesBefore = save.trophies;
@@ -62,7 +62,7 @@ function start() {
 }
 
 function roundStart() {
-    if (currentGame.questionCount < roundAmount) {
+    if (currentGame.questionCount <= roundAmount) {
         pickQuote();
         ui.answerButtons.innerHTML = "";
         hideTimer = 1;
@@ -175,13 +175,13 @@ function updateUI() {
     if (currentGame.active) {
         ui.quoteDisplay.innerHTML = getQuote(currentGame.currentQuote).text;
         ui.infoDisplay.innerHTML = "Question " + currentGame.questionCount + "/" + roundAmount + "  |  " + currentGame.currentTime.toFixed(1) + "s";
-        ui.bottomInfo.innerHTML = /* "Trophies: " + save.trophies + "/" + (quotes.length * 10) + "  |  " + */ Math.ceil(save.answers[currentGame.currentQuote][0]) + "/10";
+        ui.bottomInfo.innerHTML = /* "Trophies: " + save.trophies + "/" + (quotes.length * 10) + "  |  " + */ (Math.ceil(save.answers[currentGame.currentQuote][0]) == 10 ? "⭐" : Math.ceil(save.answers[currentGame.currentQuote][0]) + "/10");
     }
     else {
         ui.bottomInfo.innerHTML = "Trophies: " + save.trophies + "/" + (quotes.length * 10);
     }
 
-    ui.playerInfo.innerHTML = (save.name != "" ? save.name : "Nobody") + ": " + save.trophies + "/" + (quotes.length * 10) + " trophies<br />" + Object.keys(save.answers).length + "/" + quotes.length + " quotes seen";
+    ui.playerInfo.innerHTML = (save.name != "" ? save.name : "Nobody") + ": " + save.trophies + "/" + (quotes.length * 10) + " trophies<br />" + Object.keys(save.answers).length + "/" + quotes.length + " quotes seen<br />";
 }
 
 // Essential functions
