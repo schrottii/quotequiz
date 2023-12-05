@@ -38,6 +38,7 @@ var currentGame = {
     questionsRight: 0,
     questionsWrong: 0,
     trophiesBefore: 0,
+    previousAnswer: 0,
 }
 
 var save = {
@@ -97,6 +98,7 @@ function roundStart() {
 function roundWon() {
     currentGame.questionCount += 1;
     currentGame.questionsRight += 1;
+    currentGame.previousAnswer = 1;
     save.stats.totalAnswered += 1;
     save.stats.totalRight += 1;
 
@@ -104,7 +106,7 @@ function roundWon() {
         // Was answered before
         if (Math.ceil(Math.min(10, currentGame.currentTime)) > Math.ceil(save.answers[currentGame.currentQuote][0])) {
             // I was faster
-            save.trophies += Math.ceil(Math.min(10, currentGame.currentTime) - save.answers[currentGame.currentQuote][0]);
+            save.trophies += Math.ceil(Math.min(10, currentGame.currentTime)) - Math.ceil(save.answers[currentGame.currentQuote][0]);
             save.answers[currentGame.currentQuote][0] = Math.min(10, parseFloat(currentGame.currentTime.toFixed(2)));
         }
     }
@@ -117,6 +119,7 @@ function roundWon() {
 function roundLost() {
     currentGame.questionCount += 1;
     currentGame.questionsWrong += 1;
+    currentGame.previousAnswer = 2;
     save.stats.totalAnswered += 1;
     save.stats.totalWrong += 1;
 
@@ -139,6 +142,8 @@ function end() {
     ui.importButton.style.display = "";
     ui.resetButton.style.display = "";
     ui.playArea.style.display = "none";
+
+    recalculateTrophies();
 
     let trophyDifference = (save.trophies - currentGame.trophiesBefore);
     ui.infoDisplay.innerHTML = currentGame.questionsRight + "/" + roundAmount + " right answers in " + currentGame.totalTime.toFixed(1) + "s!<br />" + (trophyDifference >= 0 ? "+" : "") + trophyDifference + " trophies!";
@@ -186,6 +191,13 @@ function clickButton(bu) {
     }
 }
 
+function recalculateTrophies() {
+    save.trophies = 0;
+    for (q in quotes) {
+        save.trophies += Math.min(10, Math.ceil(save.answers[quotes[q].id][0]));
+    }
+}
+
 function changePlayerName() {
     save.name = prompt("New name?").substr(0, 12);
 }
@@ -216,7 +228,8 @@ function updateUI() {
     if (currentGame.active) {
         ui.quoteDisplay.innerHTML = getQuote(currentGame.currentQuote).text;
         ui.infoDisplay.innerHTML = "Question " + currentGame.questionCount + "/" + roundAmount + "  |  " + currentGame.currentTime.toFixed(1) + "s";
-        ui.bottomInfo.innerHTML = /* "Trophies: " + save.trophies + "/" + (quotes.length * 10) + "  |  " + */ (Math.ceil(save.answers[currentGame.currentQuote][0]) == 10 ? "⭐" : Math.ceil(save.answers[currentGame.currentQuote][0]) + "/10");
+        ui.bottomInfo.innerHTML = /* "Trophies: " + save.trophies + "/" + (quotes.length * 10) + "  |  " + */ (Math.ceil(save.answers[currentGame.currentQuote][0]) == 10 ? "⭐" : Math.ceil(save.answers[currentGame.currentQuote][0]) + "/10")
+            + "<br />" + (["", "Right!", "Wrong!"][currentGame.previousAnswer]);
     }
     else {
         ui.bottomInfo.innerHTML = "Trophies: " + save.trophies + "/" + (quotes.length * 10);
@@ -248,6 +261,7 @@ function loadSave(origin = "none") {
         for (e in loadingSave) {
             save[e] = loadingSave[e];
         }
+        if (origin != "none") updateSettings();
     }
     catch {
         alert("Something went wrong while trying to load a save!");
