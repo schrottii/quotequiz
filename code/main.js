@@ -194,7 +194,7 @@ function clickButton(bu) {
 function recalculateTrophies() {
     save.trophies = 0;
     for (q in quotes) {
-        save.trophies += Math.min(10, Math.ceil(save.answers[quotes[q].id][0]));
+        if (save.answers[quotes[q].id] != undefined) save.trophies += Math.min(10, Math.ceil(save.answers[quotes[q].id][0]));
     }
 }
 
@@ -250,7 +250,13 @@ function newSave() {
 function loadSave(origin = "none") {
     let loadingSave = "";
     if (origin == "none") loadingSave = localStorage.getItem("QUOTEQUIZ");
-    else loadingSave = origin;
+    else {
+        loadingSave = origin;
+        if (loadingSave.substr(0, 6) == "faCoDe") {
+            loadingSave = loadingSave.substr(10);
+            newSave();
+        }
+    }
 
     try {
         loadingSave = loadingSave.replace("wiXcHtUr", "wi");
@@ -262,8 +268,11 @@ function loadSave(origin = "none") {
             save[e] = loadingSave[e];
         }
         if (origin != "none") updateSettings();
+        recalculateTrophies();
+        saveSave();
     }
-    catch {
+    catch (e) {
+        console.log(e);
         alert("Something went wrong while trying to load a save!");
         if(origin == "none") newSave();
     }

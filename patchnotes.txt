@@ -1,0 +1,9 @@
+Version 1.0 (released on 2023-12-04)
+-
+
+Version 1.1 (released on 2023-12-09)
+- Changed host
+- Added support for rescue codes
+- Added 25 new quotes! (75 total)
+- Added recalculation of trophies, to prevent having more than 10 from a single quote
+- Added a short patch notes section
