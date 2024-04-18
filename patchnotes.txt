@@ -7,3 +7,8 @@ Version 1.1 (released on 2023-12-09)
 - Added 25 new quotes! (75 total)
 - Added recalculation of trophies, to prevent having more than 10 from a single quote
 - Added a short patch notes section
+
+Version 1.2 (2024-04-18)
+- Reworked the game
+- Added 2 songs
+- Added settings to toggle music and device

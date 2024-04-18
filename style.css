@@ -1,10 +1,9 @@
 body {
-    background-color: darkseagreen;
-    color: white;
-    text-align: center;
-    font-size: 16px;
-    font: Rw;
-    font-family: Rw;
+    background-color: mediumpurple;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow-y: hidden;
 }
 
 @font-face {

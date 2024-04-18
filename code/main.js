@@ -1,331 +1,244 @@
-﻿// Quote Quiz
+// Game made by Schrottii - don't steal or cheat
 
-// Main Script
+// variables
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var musicPlayer = document.getElementById("musicPlayer");
 
-// Variables
-var ui = {
-    quoteDisplay: document.getElementById("quoteDisplay"),
-    infoDisplay: document.getElementById("infoDisplay"),
-    bottomInfo: document.getElementById("bottomInfo"),
-    playerInfo: document.getElementById("playerInfo"),
+var delta = 0;
+var time = Date.now();
 
-    startButton: document.getElementById("startButton"),
-    answerButtons: document.getElementById("answerButtons"),
-    nameButton: document.getElementById("nameButton"),
-    exportButton: document.getElementById("exportButton"),
-    importButton: document.getElementById("importButton"),
-    resetButton: document.getElementById("resetButton"),
-    nsfwButton: document.getElementById("nsfwButton"),
+var width = 0;
+var height = 0;
 
-    playArea: document.getElementById("playArea"),
+// the holy quattroformaggi
+var images = {
+    button: "button.png",
+    logo: "logo.png",
+
+    whiteDiscord: "white-dc-logo.png",
+    whiteWebsite: "white-website.png",
+    menuground: "menu-ground.png",
+    menuground2: "menu-ground2.png",
 }
 
-const gameVersion = "1.0";
+var scenes = {
 
-const roundDuration = 11;
-const roundAmount = 20;
-
-var hideTimer = -60;
-
-var currentGame = {
-    active: false,
-    currentQuote: "",
-    totalTime: 0,
-    currentTime: roundDuration,
-    currentPeople: [],
-    winnerNumber: -1,
-    questionCount: 1,
-    questionsRight: 0,
-    questionsWrong: 0,
-    trophiesBefore: 0,
-    previousAnswer: 0,
 }
 
-var save = {
-    name: "",
-    id: "",
-    trophies: 0,
-    startver: "0",
-    stats: {
-        totalGames: 0,
-        totalAnswered: 0,
-        totalRight: 0,
-        totalWrong: 0,
-    },
-    settings: {
-        nsfw: false,
-    },
-    answers: {
+var objects = {
 
-    }
-}
-var backupEmptySave = {};
-for (e in save) {
-    backupEmptySave[e] = save[e];
 }
 
-function start() {
-    currentGame.active = true;
-    currentGame.totalTime = 0;
-    currentGame.questionCount = 1;
-    currentGame.questionsRight = 0;
-    currentGame.questionsWrong = 0;
-    currentGame.trophiesBefore = save.trophies;
+var foregroundObjects = {
 
-    save.stats.totalGames += 1;
-
-    ui.startButton.style.display = "none";
-    ui.exportButton.style.display = "none";
-    ui.importButton.style.display = "none";
-    ui.resetButton.style.display = "none";
-    ui.playArea.style.display = "";
-
-    roundStart();
 }
 
-function roundStart() {
-    if (currentGame.questionCount <= roundAmount) {
-        pickQuote();
-        ui.answerButtons.innerHTML = "";
-        hideTimer = 1;
-        currentGame.currentTime = roundDuration;
-    }
-    else {
-        end();
-    }
+var clickables = {
+
 }
 
-function roundWon() {
-    currentGame.questionCount += 1;
-    currentGame.questionsRight += 1;
-    currentGame.previousAnswer = 1;
-    save.stats.totalAnswered += 1;
-    save.stats.totalRight += 1;
+// loading stuff
+var loadingImages = 0;
+var loadedImages = 0;
 
-    if (save.answers[currentGame.currentQuote] != undefined) {
-        // Was answered before
-        if (Math.ceil(Math.min(10, currentGame.currentTime)) > Math.ceil(save.answers[currentGame.currentQuote][0])) {
-            // I was faster
-            save.trophies += Math.ceil(Math.min(10, currentGame.currentTime)) - Math.ceil(save.answers[currentGame.currentQuote][0]);
-            save.answers[currentGame.currentQuote][0] = Math.min(10, parseFloat(currentGame.currentTime.toFixed(2)));
-        }
-    }
-
-    save.answers[currentGame.currentQuote][1] += 1;
-
-    roundStart();
-}
-
-function roundLost() {
-    currentGame.questionCount += 1;
-    currentGame.questionsWrong += 1;
-    currentGame.previousAnswer = 2;
-    save.stats.totalAnswered += 1;
-    save.stats.totalWrong += 1;
-
-    if (save.answers[currentGame.currentQuote] != undefined) {
-        // Was answered before
-        save.trophies -= Math.ceil(save.answers[currentGame.currentQuote][0]);
-        save.answers[currentGame.currentQuote][0] = 0; // failed
-    }
-
-    save.answers[currentGame.currentQuote][2] += 1;
-
-    roundStart();
-}
-
-function end() {
-    currentGame.active = false;
-
-    ui.startButton.style.display = "";
-    ui.exportButton.style.display = "";
-    ui.importButton.style.display = "";
-    ui.resetButton.style.display = "";
-    ui.playArea.style.display = "none";
-
-    recalculateTrophies();
-
-    let trophyDifference = (save.trophies - currentGame.trophiesBefore);
-    ui.infoDisplay.innerHTML = currentGame.questionsRight + "/" + roundAmount + " right answers in " + currentGame.totalTime.toFixed(1) + "s!<br />" + (trophyDifference >= 0 ? "+" : "") + trophyDifference + " trophies!";
-
-    saveSave();
-}
-
-function pickQuote() {
-    currentGame.currentQuote = "";
-    while (currentGame.currentQuote == "" || (getQuote(currentGame.currentQuote).nsfw && !save.settings.nsfw)) {
-        currentGame.currentQuote = quotes[Math.floor(quotes.length * Math.random())].id;
-    }
-    if (save.answers[currentGame.currentQuote] == undefined) save.answers[currentGame.currentQuote] = [0, 0, 0];
-}
-
-function getQuote(id) {
-    for (q in quotes) {
-        if (quotes[q].id == id) return quotes[q];
-    }
-}
-
-function generatePeople() {
-    currentGame.currentPeople = [];
-
-    let theWinner = getQuote(currentGame.currentQuote).user;
-    currentGame.winnerNumber = Math.floor(Math.random() * 4);
-
-    for (pe = 0; pe < 4; pe++) {
-        if (pe == currentGame.winnerNumber) currentGame.currentPeople.push(theWinner);
-        else {
-            // v to avoid the winner eppearing twice
-            let randomPPL = usernames[Math.floor(Math.random() * usernames.length)];
-            while (randomPPL == getQuote(currentGame.currentQuote).user) randomPPL = usernames[Math.floor(Math.random() * usernames.length)];
-            currentGame.currentPeople.push(randomPPL);
-        }
-    }
-}
-
-function clickButton(bu) {
-    if (currentGame.winnerNumber == bu) {
-        roundWon();
-    }
-    else {
-        roundLost();
-    }
-}
-
-function recalculateTrophies() {
-    save.trophies = 0;
-    for (q in quotes) {
-        if (save.answers[quotes[q].id] != undefined) save.trophies += Math.min(10, Math.ceil(save.answers[quotes[q].id][0]));
-    }
-}
-
-function changePlayerName() {
-    save.name = prompt("New name?").substr(0, 12);
-}
-
-function toggleNSFW() {
-    save.settings.nsfw = !save.settings.nsfw;
-    updateSettings();
-}
-
-// Update functions
-function updateButtons() {
-    let render = "";
-
-    for (bu = 0; bu < 4; bu++) {
-        render = render + "<button onclick='clickButton(" + bu + ")' class='answerButton'>" + currentGame.currentPeople[bu] + "</button>";
-        if (bu == 1) render = render + "<br /><br />";
-    }
-
-    ui.answerButtons.innerHTML = render;
-}
-
-function updateSettings() {
-    if (save.settings.nsfw) ui.nsfwButton.innerHTML = "NSFW [ON]";
-    else ui.nsfwButton.innerHTML = "NSFW [OFF]";
-}
-
-function updateUI() {
-    if (currentGame.active) {
-        ui.quoteDisplay.innerHTML = getQuote(currentGame.currentQuote).text;
-        ui.infoDisplay.innerHTML = "Question " + currentGame.questionCount + "/" + roundAmount + "  |  " + currentGame.currentTime.toFixed(1) + "s";
-        ui.bottomInfo.innerHTML = /* "Trophies: " + save.trophies + "/" + (quotes.length * 10) + "  |  " + */ (Math.ceil(save.answers[currentGame.currentQuote][0]) == 10 ? "⭐" : Math.ceil(save.answers[currentGame.currentQuote][0]) + "/10")
-            + "<br />" + (["", "Right!", "Wrong!"][currentGame.previousAnswer]);
-    }
-    else {
-        ui.bottomInfo.innerHTML = "Trophies: " + save.trophies + "/" + (quotes.length * 10);
-    }
-
-    ui.playerInfo.innerHTML = (save.name != "" ? save.name : "Nobody") + ": " + save.trophies + "/" + (quotes.length * 10) + " trophies<br />" + Object.keys(save.answers).length + "/" + quotes.length + " quotes seen<br />";
-}
-
-// Essential functions
-function newSave() {
-    save = backupEmptySave;
-    save.startver = gameVersion;
-    save.id = Math.random().toString(16).slice(2);
-
-    saveSave();
-}
-
-function loadSave(origin = "none") {
-    let loadingSave = "";
-    if (origin == "none") loadingSave = localStorage.getItem("QUOTEQUIZ");
-    else {
-        loadingSave = origin;
-        if (loadingSave.substr(0, 6) == "faCoDe") {
-            loadingSave = loadingSave.substr(10);
-            newSave();
-        }
-    }
-
-    try {
-        loadingSave = loadingSave.replace("wiXcHtUr", "wi");
-        loadingSave = loadingSave.replace("quQisv", "ey");
-        loadingSave = atob(loadingSave);
-        loadingSave = JSON.parse(loadingSave);
-
-        for (e in loadingSave) {
-            save[e] = loadingSave[e];
-        }
-        if (origin != "none") updateSettings();
-        recalculateTrophies();
-        saveSave();
-    }
-    catch (e) {
-        console.log(e);
-        alert("Something went wrong while trying to load a save!");
-        if(origin == "none") newSave();
-    }
-}
-
-function saveSave() {
-    let savingSave = save;
-    try {
-        savingSave = JSON.stringify(savingSave);
-        savingSave = btoa(savingSave);
-        savingSave = savingSave.replace("ey", "quQisv");
-        savingSave = savingSave.replace("wi", "wiXcHtUr");
-
-        localStorage.setItem("QUOTEQUIZ", savingSave);
-
-        return savingSave;
-    }
-    catch {
-        alert("Something went wrong while trying to save a save!");
-    }
-}
-
-function exportSave() {
-    let toExport = saveSave();
-    navigator.clipboard.writeText(toExport);
-}
-
-function importSave() {
-    let toImport = prompt("Paste your save here...");
-    if (toImport == undefined) return false;
-    newSave();
-    loadSave(toImport);
-}
-
-function resetSave() {
-    if (confirm("Are you really sure you want to delete your save?")) {
-        if (confirm("You will lose everything! Consider exporting your save first!")) {
-            if (confirm("If you press yes again everything will be gone!!!!!!!!!!")){
-                newSave();
+function loadImages() {
+    for (let image in images) {
+        let img = new Image();
+        img.src = "images/" + images[image];
+        img.onload = () => {
+            loadedImages++;
+            if (loadingImages == loadedImages) {
+                console.log("all images loaded");
+                init(); // start game
             }
         }
+        images[image] = img;
+        loadingImages++;
     }
 }
 
-var oldTime = 0;
-function loop(tick) {
-    let time = (tick - oldTime) / 1000;
-    oldTime = tick;
+// scene stuff
+var currentScene = "none";
+
+class Scene {
+    constructor(init, loop) {
+        this.init = init;
+        this.loop = loop;
+    }
+}
+
+function loadScene(sceneName) {
+    console.log("loading scene: " + sceneName)
+    if (scenes[sceneName] == undefined) return false;
+
+    currentScene = sceneName;
+
+    objects = {};
+    foregroundObjects = {};
+    clickables = {};
+
+    scenes[sceneName].init();
+}
+
+// event listeners and their functions
+canvas.addEventListener("pointerdown", onClick);
+
+function onClick(e) {
+    let mouseX = e.clientX;
+    let mouseY = e.clientY;
+
+    for (c in clickables) {
+        //console.log(mouseX > clickables[c][0], mouseY > clickables[c][1]
+        //    , mouseX < clickables[c][0] + clickables[c][2], mouseY < clickables[c][1] + clickables[c][3])
+        if (clickables[c] == undefined) return false;
+        if (mouseX > clickables[c][0] && mouseY > clickables[c][1]
+            && mouseX < clickables[c][0] + clickables[c][2] && mouseY < clickables[c][1] + clickables[c][3]) {
+            // is in the hitbox
+            clickables[c][4]();
+        }
+    }
+}
+
+// object functions
+class Square {
+    constructor(x, y, w, h, color) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.color = color;
+    }
+
+    render() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(width * this.x, height * this.y, width * this.w, height * this.h);
+    }
+}
+
+class Picture {
+    constructor(x, y, w, h, image, quadratic) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.image = image;
+        this.quadratic = quadratic;
+    }
+
+    render() {
+        if (this.rotate) ctx.translate(this.x + (this.w / 2), this.y + (this.h / 2)); ctx.rotate(this.rotate);
+
+        if (this.snip) ctx.drawImage(images[this.image], this.snip[0], this.snip[1], this.snip[2], this.snip[3], this.quadratic ? (width * this.x) - ((height * this.w) / 2) : width * this.x, height * this.y, this.quadratic ? height * this.w : width * this.w, height * this.h);
+        else ctx.drawImage(images[this.image], this.quadratic ? (width * this.x) - ((height * this.w) / 2) : width * this.x, height * this.y, this.quadratic ? height * this.w : width * this.w, height * this.h);
+        if (this.rotate) ctx.translate(-this.x - (this.w / 2), -this.y - (this.h / 2)); ctx.rotate(0);
+    }
+}
+
+class Text {
+    constructor(x, y, text, color, fontSize, textAlign) {
+        this.x = x;
+        this.y = y;
+        this.text = text;
+        this.color = color;
+        this.fontSize = fontSize;
+        this.textAlign = textAlign;
+    }
+
+    render() {
+        ctx.fillStyle = this.color ? this.color : "black";
+        ctx.font = ((this.fontSize ? this.fontSize : 20) * (isMobile() ? 0.5 : 1)) + "px Rw";
+        ctx.textBaseline = "bottom";
+        ctx.textAlign = this.textAlign ? this.textAlign : "center";
+
+        ctx.fillText(this.text, width * this.x, height * this.y);
+    }
+}
+
+function isMobile() {
+    if (save.settings.device == "pc") return false;
+    if (save.settings.device == "mobile") return true;
+    return /Mobi/i.test(window.navigator.userAgent) || width <= 480;
+}
+
+// create functions
+function createSquare(name, x, y, w, h, color) {
+    if (objects[name] == undefined) objects[name] = new Square(x, y, w, h, color);
+}
+
+function createImage(name, x, y, w, h, image, quadratic = false, foreground = false) {
+    if (!foreground) {
+        if (objects[name] == undefined) objects[name] = new Picture(x, y, w, h, image, quadratic);
+    }
+    else if (foregroundObjects[name] == undefined) foregroundObjects[name] = new Picture(x, y, w, h, image, quadratic);
+}
+
+function createText(name, x, y, text, color, fontSize, textAlign = "", foreground = false) {
+    if (!foreground) {
+        if (objects[name] == undefined) objects[name] = new Text(x, y, text, color, fontSize, textAlign);
+    }
+    else if (foregroundObjects[name] == undefined) foregroundObjects[name] = new Text(x, y, text, color, fontSize, textAlign);
+}
+
+function createClickable(clickableName, x, y, w, h, onClick) {
+    if (clickables[clickableName] == undefined) {
+        clickables[clickableName] = [width * x, height * y, width * w, height * h, onClick];
+    }
+}
+
+function createButton(clickableName, x, y, w, h, color, onClick, quadratic = false) {
+    if (objects[clickableName] == undefined && clickables[clickableName] == undefined) {
+        objects[clickableName] = new Picture(x, y, w, h, color, quadratic);
+        if (quadratic) clickables[clickableName] = [width * x - ((height * h) / 2), height * y, height * h, height * h, onClick];
+        else clickables[clickableName] = [width * x, height * y, width * w, height * h, onClick];
+    }
+
+}
+
+// loop
+function loop() {
+    // The game's main loop
+
+    // Tick time
+    delta = Date.now() - time;
+    time = Date.now();
+    save.stats.totalTime += delta;
+
+    // Resize the canvas
+    canvas.style.width = (canvas.width = window.innerWidth) + "px";
+    canvas.style.height = (canvas.height = window.innerHeight) + "px";
+
+    width = window.innerWidth;
+    height = window.innerHeight;
+    ctx.imageSmoothingEnabled = false; // praise jesus
+
+    // loop
+    if (currentScene != "none") {
+        scenes[currentScene].loop(delta / 1000);
+
+        for (o in objects) {
+            objects[o].render();
+        }
+        for (o in foregroundObjects) {
+            foregroundObjects[o].render();
+        }
+    }
+    else {
+        // Loading images / no scene selected
+        ctx.font = "40px Joystix";
+        ctx.fillStyle = "white";
+        ctx.textBaseline = "bottom";
+        ctx.textAlign = "center";
+
+        ctx.fillText("QuoteQuiz", width / 2, height / 4);
+        if (loadedImages == loadingImages) ctx.fillText("Click to start!", width / 2, height / 2);
+        else ctx.fillText("Loaded: " + loadedImages + "/" + loadingImages, width / 2, height / 2);
+    }
 
     if (currentGame.active) {
-        currentGame.totalTime += time;
-        currentGame.currentTime -= time;
-        hideTimer -= time;
+        currentGame.totalTime += delta / 1000;
+        currentGame.currentTime -= delta / 1000;
+        hideTimer -= delta / 1000;
 
         if (hideTimer < 0 && hideTimer > -59) {
             generatePeople();
@@ -339,18 +252,20 @@ function loop(tick) {
         }
     }
 
-    updateUI();
-
-    window.requestAnimationFrame(loop);
+    requestAnimationFrame(loop);
 }
 
-if (localStorage.getItem("QUOTEQUIZ") != undefined) {
+// init the game
+ctx.imageSmoothingEnabled = false;
+
+loop();
+loadImages();
+function init() {
+    musicPlayer.loop = true;
+
     loadSave();
-}
-else {
-    newSave();
-}
 
-// Start game
-updateSettings();
-window.requestAnimationFrame(loop);
+    createClickable("startMusic", 0, 0, 1, 1, () => {
+        loadScene("mainmenu");
+    });
+}

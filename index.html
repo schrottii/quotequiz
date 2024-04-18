@@ -3,9 +3,15 @@
 <head>
     <title>QuoteQuiz</title>
     <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+    <audio id="musicPlayer" type="audio/ogg" preload="auto"></audio>
+    <canvas id="canvas"></canvas>
+
+    <!--
     <h1>QuoteQuiz</h1>
 
     <h2>Play</h2>
@@ -45,8 +51,14 @@
     - Added 25 new quotes! (75 total) <br />
     - Added recalculation of trophies, to prevent having more than 10 from a single quote <br />
     - Added a short patch notes section
+        -->
 
     <script src="code/quotes.js"></script>
+    <script src="code/quiz.js"></script>
     <script src="code/main.js"></script>
+
+    <script src="scenes/mainmenu.js"></script>
+    <script src="scenes/settings.js"></script>
+    <script src="scenes/play.js"></script>
 </body>
 </html>
