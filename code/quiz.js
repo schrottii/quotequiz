@@ -38,7 +38,7 @@ var save = {
     },
     settings: {
         nsfw: false,
-        music: false,
+        music: true,
         device: "automatic",
     },
     answers: {
