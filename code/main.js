@@ -69,7 +69,7 @@ class Scene {
 }
 
 function loadScene(sceneName) {
-    console.log("loading scene: " + sceneName)
+    // console.log("loading scene: " + sceneName)
     if (scenes[sceneName] == undefined) return false;
 
     currentScene = sceneName;
@@ -77,6 +77,8 @@ function loadScene(sceneName) {
     objects = {};
     foregroundObjects = {};
     clickables = {};
+
+    groundAnimation = 0;
 
     scenes[sceneName].init();
 }

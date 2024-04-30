@@ -3,7 +3,7 @@
 // Main Script
 
 // Variables
-const gameVersion = "1.2";
+const gameVersion = "1.3";
 
 const roundDuration = 11;
 const roundAmount = 20;
@@ -230,10 +230,6 @@ function end() {
 
     recalculateTrophies();
 
-    let trophyDifference = (save.trophies - currentGame.trophiesBefore);
-    //ui.infoDisplay.innerHTML = currentGame.questionsRight + "/" + roundAmount + " right answers in " + currentGame.totalTime.toFixed(1) + "s!<br />" + (trophyDifference >= 0 ? "+" : "") + trophyDifference + " trophies!";
-
-    loadScene("mainmenu");
     saveSave();
 }
 

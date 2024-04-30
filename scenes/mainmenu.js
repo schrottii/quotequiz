@@ -65,7 +65,7 @@ scenes["mainmenu"] = new Scene(
     (tick) => {
         // Loop
         
-        groundAnimation += tick;
+        groundAnimation += tick / 2;
         objects["menuground"].x -= tick / 2;
         objects["menuground3"].x -= tick / 2;
         if (groundAnimation >= 1) {
