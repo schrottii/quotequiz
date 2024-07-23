@@ -97,9 +97,11 @@ function loadSave(origin = "none") {
         saveSave();
     }
     catch (e) {
-        console.log(e);
-        alert("Something went wrong while trying to load the save!");
         if (origin == "none") newSave();
+        else {
+            console.log(e);
+            alert("Something went wrong while trying to load the save!");
+        }
     }
 }
 

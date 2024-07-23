@@ -41,6 +41,7 @@ const patchnotes = {
             "- Moved the quote's text a bit lower, to stand out more",
             "- Name setting now shows the current name",
             "- Changed some white texts to black",
+            "- Fixed error message appearing when playing for the first time",
         ],
 }
 
