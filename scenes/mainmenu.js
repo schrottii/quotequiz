@@ -3,7 +3,7 @@ var groundAnimation = 0;
 scenes["mainmenu"] = new Scene(
     () => {
         // Init
-        createSquare("bg", 0, 0, 1, 1, "mediumpurple");
+        createSquare("bg", 0, 0, 1, 1, "#c7daff");
 
         createImage("menuground2", 0, 0.9, 1, 0.1, "menuground2");
 
@@ -33,24 +33,30 @@ scenes["mainmenu"] = new Scene(
             loadScene("settings");
         });
         createText("buttonText2", 0.5, 0.6, "Settings", "black", 40);
+
+        // Patch notes button
+        createButton("patchnotesbutton", 0.4, 0.65, 0.2, 0.1, "button", () => {
+            loadScene("patchnotes");
+        });
+        createText("buttonText3", 0.5, 0.725, "Patch notes", "black", 40);
         
         // Left Icons
         createButton("serverbutton", 0.1, 0.4, 0.08, 0.08, "whiteDiscord", () => {
             window.open("https://discord.gg/CbBeJXKUrk");
         }, true);
-        createText("wButtonText1", 0.14, 0.46, "Discord", "white", 32, "left");
+        createText("wButtonText1", 0.14, 0.46, "Discord", "black", 32, "left");
 
         /*
         createButton("patchnotesbutton", 0.1, 0.5, 0.08, 0.08, "whiteNotes", () => {
             loadScene("patchnotes");
         }, true);
-        createText("wButtonText2", 0.14, 0.56, "Patch notes", "white", 32, "left");
+        createText("wButtonText2", 0.14, 0.56, "Patch notes", "black", 32, "left");
         */
 
         createButton("websitebutton", 0.1, 0.6, 0.08, 0.08, "whiteWebsite", () => {
             window.open("https://schrottii.github.io/");
         }, true);
-        createText("wButtonText3", 0.14, 0.66, "Website", "white", 32, "left");
+        createText("wButtonText3", 0.14, 0.66, "Website", "black", 32, "left");
 
         musicPlayer.src = "QuizMenu.mp3";
         musicPlayer.volume = save.settings.music ? 1 : 0;
@@ -58,9 +64,10 @@ scenes["mainmenu"] = new Scene(
 
 
         createText("playerInfo", 0.65, 0.5, "", "black", 32, "left");
-        createText("playerInfo2", 0.65, 0.525, "", "black", 32, "left");
-        createText("playerInfo3", 0.65, 0.55, "", "black", 32, "left");
-        createText("playerInfo4", 0.65, 0.575, "", "black", 32, "left");
+        createText("playerInfo2", 0.65, 0.535, "", "black", 32, "left");
+        createText("playerInfo3", 0.65, 0.57, "", "black", 32, "left");
+        createText("playerInfo4", 0.65, 0.605, "", "black", 32, "left");
+        createText("playerInfo5", 0.65, 0.64, "", "black", 32, "left");
     },
     (tick) => {
         // Loop
@@ -83,6 +90,7 @@ scenes["mainmenu"] = new Scene(
         objects["playerInfo"].text = (save.name != "" ? save.name : "Nobody") + ": ";
         objects["playerInfo2"].text = save.trophies + "/" + (quotes.length * 10) + " trophies";
         objects["playerInfo3"].text = Object.keys(save.answers).length + "/" + quotes.length + " quotes seen";
-        objects["playerInfo4"].text = save.stats.totalAnswered + " answered";
+        objects["playerInfo4"].text = perfectAnswers + "/" + quotes.length + " perfect";
+        objects["playerInfo5"].text = save.stats.totalAnswered + " answered";
     }
 );

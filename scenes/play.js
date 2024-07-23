@@ -1,14 +1,14 @@
 ﻿scenes["play"] = new Scene(
     () => {
         // Init
-        createSquare("bg", 0, 0, 1, 1, "mediumpurple");
+        createSquare("bg", 0, 0, 1, 1, "#c7daff");
 
         createImage("menuground", 0, 0, 2, 0.1, "menuground");
         createImage("menuground2", 0, 0.9, 2, 0.1, "menuground");
 
         // Text
-        createText("quoteText", 0.5, 0.3, "...", "black", 40);
-        createText("quoteText2", 0.5, 0.333, "", "black", 40);
+        createText("quoteText", 0.5, 0.34, "...", "black", 40);
+        createText("quoteText2", 0.5, 0.38, "", "black", 40);
         createText("quoteInfo", 0.5, 0.25, "", "black", 40);
         createText("quoteInfo2", 0.5, 0.2, "", "black", 40);
 

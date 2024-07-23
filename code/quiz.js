@@ -3,12 +3,11 @@
 // Main Script
 
 // Variables
-const gameVersion = "1.3";
-
 const roundDuration = 11;
 const roundAmount = 20;
 
 var hideTimer = -60;
+var perfectAnswers = 0;
 
 var currentGame = {
     active: false,
@@ -278,8 +277,13 @@ function clickButton(bu) {
 
 function recalculateTrophies() {
     save.trophies = 0;
+    perfectAnswers = 0;
+
     for (q in quotes) {
-        if (save.answers[quotes[q].id] != undefined) save.trophies += Math.min(10, Math.ceil(save.answers[quotes[q].id][0]));
+        if (save.answers[quotes[q].id] != undefined) {
+            save.trophies += Math.min(10, Math.ceil(save.answers[quotes[q].id][0]));
+            if (Math.ceil(save.answers[quotes[q].id][0]) >= 10) perfectAnswers += 1;
+        }
     }
 }
 
@@ -290,41 +294,6 @@ function changePlayerName() {
 
 function toggleNSFW() {
     save.settings.nsfw = !save.settings.nsfw;
-    updateSettings();
-}
-
-// Update functions (UI)
-function updateButtons() {
-    return false
-    let render = "";
-
-    for (bu = 0; bu < 4; bu++) {
-        render = render + "<button onclick='clickButton(" + bu + ")' class='answerButton'>" + currentGame.currentPeople[bu] + "</button>";
-        if (bu == 1) render = render + "<br /><br />";
-    }
-
-    ui.answerButtons.innerHTML = render;
-}
-
-function updateSettings() {
-    return false
-    if (save.settings.nsfw) ui.nsfwButton.innerHTML = "NSFW [ON]";
-    else ui.nsfwButton.innerHTML = "NSFW [OFF]";
-}
-
-function updateUI() {
-    return false
-    if (currentGame.active) {
-        ui.quoteDisplay.innerHTML = getQuote(currentGame.currentQuote).text;
-        ui.infoDisplay.innerHTML = "Question " + currentGame.questionCount + "/" + roundAmount + "  |  " + currentGame.currentTime.toFixed(1) + "s";
-        ui.bottomInfo.innerHTML = /* "Trophies: " + save.trophies + "/" + (quotes.length * 10) + "  |  " + */ (Math.ceil(save.answers[currentGame.currentQuote][0]) == 10 ? "⭐" : Math.ceil(save.answers[currentGame.currentQuote][0]) + "/10")
-            + "<br />" + (["", "Right!", "Wrong!"][currentGame.previousAnswer]);
-    }
-    else {
-        ui.bottomInfo.innerHTML = "Trophies: " + save.trophies + "/" + (quotes.length * 10);
-    }
-
-    ui.playerInfo.innerHTML = (save.name != "" ? save.name : "Nobody") + ": " + save.trophies + "/" + (quotes.length * 10) + " trophies<br />" + Object.keys(save.answers).length + "/" + quotes.length + " quotes seen<br />";
 }
 
 // Essential functions
@@ -336,7 +305,6 @@ function loop(tick) {
 
     
 
-    updateUI();
 
     window.requestAnimationFrame(loop);
 }

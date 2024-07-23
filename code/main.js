@@ -228,7 +228,7 @@ function loop() {
     else {
         // Loading images / no scene selected
         ctx.font = "40px Joystix";
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "black";
         ctx.textBaseline = "bottom";
         ctx.textAlign = "center";
 
@@ -244,7 +244,6 @@ function loop() {
 
         if (hideTimer < 0 && hideTimer > -59) {
             generatePeople();
-            updateButtons();
 
             hideTimer = -60;
         }

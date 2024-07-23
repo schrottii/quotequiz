@@ -5,9 +5,10 @@ scenes["settings"] = new Scene(
             objects["settingText1"].text = "Music " + (save.settings.music ? "ON" : "OFF");
             objects["settingText2"].text = "Device " + save.settings.device.substr(0, 1).toUpperCase() + save.settings.device.substr(1);
             objects["settingText3"].text = "NSFW " + (save.settings.nsfw ? "ON" : "OFF");
+            objects["settingText6"].text = "Name: " + save.name;
         }
 
-        createSquare("bg", 0, 0, 1, 1, "mediumpurple");
+        createSquare("bg", 0, 0, 1, 1, "#c7daff");
 
         createImage("menuground2", 0, 0.9, 1, 0.1, "menuground2");
 
