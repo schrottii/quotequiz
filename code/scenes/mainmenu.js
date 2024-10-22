@@ -14,37 +14,37 @@ scenes["mainmenu"] = new Scene(
 
 
 
-        createImage("logo", 0.5, 0, 0.4, 0.4, "logo", true);
-        createText("version", 0.975, 0.8, "Version " + gameVersion, "black", 40, "right");
+        createImage("logo", 0.5, 0, 0.4, 0.4, "logo", { quadratic: true, centered: true });
+        createText("version", 0.975, 0.8, "Version " + gameVersion, { size: 40, align: "right" });
 
         // Play button
         createButton("playbutton", 0.4, 0.4, 0.2, 0.1, "button", () => {
-            musicPlayer.src = "QuizTime.mp3";
-            musicPlayer.volume = save.settings.music ? 1 : 0;
-            if (save.settings.music) musicPlayer.play();
+            wggjAudio.src = "QuizTime.mp3";
+            wggjAudio.volume = save.settings.music ? 1 : 0;
+            if (save.settings.music) wggjAudio.play();
 
             start();
             loadScene("play");
         });
-        createText("buttonText1", 0.5, 0.475, "Play", "black", 40);
+        createText("buttonText1", 0.5, 0.475, "Play", { size: 40 });
 
         // Settings button
         createButton("settingsbutton", 0.4, 0.525, 0.2, 0.1, "button", () => {
             loadScene("settings");
         });
-        createText("buttonText2", 0.5, 0.6, "Settings", "black", 40);
+        createText("buttonText2", 0.5, 0.6, "Settings", { size: 40 });
 
         // Patch notes button
         createButton("patchnotesbutton", 0.4, 0.65, 0.2, 0.1, "button", () => {
             loadScene("patchnotes");
         });
-        createText("buttonText3", 0.5, 0.725, "Patch notes", "black", 40);
+        createText("buttonText3", 0.5, 0.725, "Patch notes", { size: 40 });
         
         // Left Icons
         createButton("serverbutton", 0.1, 0.4, 0.08, 0.08, "whiteDiscord", () => {
             window.open("https://discord.gg/CbBeJXKUrk");
-        }, true);
-        createText("wButtonText1", 0.14, 0.46, "Discord", "black", 32, "left");
+        }, { quadratic: true, centered: true });
+        createText("wButtonText1", 0.14, 0.46, "Discord", { size: 32, align: "left" });
 
         /*
         createButton("patchnotesbutton", 0.1, 0.5, 0.08, 0.08, "whiteNotes", () => {
@@ -55,19 +55,24 @@ scenes["mainmenu"] = new Scene(
 
         createButton("websitebutton", 0.1, 0.6, 0.08, 0.08, "whiteWebsite", () => {
             window.open("https://schrottii.github.io/");
-        }, true);
-        createText("wButtonText3", 0.14, 0.66, "Website", "black", 32, "left");
+        }, { quadratic: true, centered: true });
+        createText("wButtonText3", 0.14, 0.66, "Website", { size: 32, align: "left" });
 
-        musicPlayer.src = "QuizMenu.mp3";
-        musicPlayer.volume = save.settings.music ? 1 : 0;
-        if (save.settings.music) musicPlayer.play();
+        wggjAudio.src = "QuizMenu.mp3";
+        wggjAudio.volume = save.settings.music ? 1 : 0;
+        if (save.settings.music) wggjAudio.play();
 
 
-        createText("playerInfo", 0.65, 0.5, "", "black", 32, "left");
-        createText("playerInfo2", 0.65, 0.535, "", "black", 32, "left");
-        createText("playerInfo3", 0.65, 0.57, "", "black", 32, "left");
-        createText("playerInfo4", 0.65, 0.605, "", "black", 32, "left");
-        createText("playerInfo5", 0.65, 0.64, "", "black", 32, "left");
+        createText("playerInfo", 0.65, 0.5, "", { size: 32, align: "left" });
+        createText("playerInfo2", 0.65, 0.535, "", { size: 32, align: "left" });
+        createText("playerInfo3", 0.65, 0.57, "", { size: 32, align: "left" });
+        createText("playerInfo4", 0.65, 0.605, "", { size: 32, align: "left" });
+        createText("playerInfo5", 0.65, 0.64, "", { size: 32, align: "left" });
+
+        createButton("donateButton", 0.05, 0.875, 0.2, 0.1, "#8E003D", () => {
+            window.open("https://ko-fi.com/Y8Y2XMZX1");
+        })
+        createText("donateText", 0.15, 0.875 + 0.1 * 2 / 3, "Donate", { color: "white", size: 40 });
     },
     (tick) => {
         // Loop

@@ -7,21 +7,21 @@
         createImage("menuground2", 0, 0.9, 2, 0.1, "menuground");
 
         // Text
-        createText("quoteText", 0.5, 0.34, "...", "black", 40);
-        createText("quoteText2", 0.5, 0.38, "", "black", 40);
-        createText("quoteInfo", 0.5, 0.25, "", "black", 40);
-        createText("quoteInfo2", 0.5, 0.2, "", "black", 40);
+        createText("quoteText", 0.5, 0.34, "...", { size: 40 });
+        createText("quoteText2", 0.5, 0.38, "", { size: 40 });
+        createText("quoteInfo", 0.5, 0.25, "", { size: 40 });
+        createText("quoteInfo2", 0.5, 0.2, "", { size: 40 });
 
         // Buttons
-        createButton("answer1", 0.1, 0.6, 0.3, 0.1, "button", () => { clickButton(0) })
-        createButton("answer2", 0.6, 0.6, 0.3, 0.1, "button", () => { clickButton(1) })
-        createButton("answer3", 0.1, 0.75, 0.3, 0.1, "button", () => { clickButton(2) })
-        createButton("answer4", 0.6, 0.75, 0.3, 0.1, "button", () => { currentGame.active ? clickButton(3) : loadScene("mainmenu"); })
+        createButton("answer1", 0.1, 0.6, 0.3, 0.1, "#000000", () => { clickButton(0) })
+        createButton("answer2", 0.6, 0.6, 0.3, 0.1, "#000000", () => { clickButton(1) })
+        createButton("answer3", 0.1, 0.75, 0.3, 0.1, "#000000", () => { clickButton(2) })
+        createButton("answer4", 0.6, 0.75, 0.3, 0.1, "#000000", () => { currentGame.active ? clickButton(3) : loadScene("mainmenu"); })
 
-        createText("answerText1", 0.25, 0.675, "", "black", 40);
-        createText("answerText2", 0.25 + 0.5, 0.675, "", "black", 40);
-        createText("answerText3", 0.25, 0.675 + 0.15, "", "black", 40);
-        createText("answerText4", 0.25 + 0.5, 0.675 + 0.15, "", "black", 40);
+        createText("answerText1", 0.25, 0.675, "", { size: 40, color: "white" });
+        createText("answerText2", 0.25 + 0.5, 0.675, "", { size: 40, color: "white" });
+        createText("answerText3", 0.25, 0.675 + 0.15, "", { size: 40, color: "white" });
+        createText("answerText4", 0.25 + 0.5, 0.675 + 0.15, "", { size: 40, color: "white" });
     },
     (tick) => {
         // Loop
@@ -35,8 +35,8 @@
             objects["menuground2"].x = 0;
         }
 
-        objects["quoteText"].text = getQuote(currentGame.currentQuote).text.substr(0, 42);
-        objects["quoteText2"].text = getQuote(currentGame.currentQuote).text.substr(42);
+        objects["quoteText"].text = getQuote(currentGame.currentQuote).text.substr(0, 64);
+        objects["quoteText2"].text = getQuote(currentGame.currentQuote).text.substr(64);
 
         if (!currentGame.active) {
             objects["quoteInfo"].text = ((save.trophies - currentGame.trophiesBefore) >= 0 ? "+" : "") + (save.trophies - currentGame.trophiesBefore) + " trophies!";

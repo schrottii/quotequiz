@@ -1,5 +1,5 @@
-var gameVersion = "1.4";
-var newestVersion = 4;
+var gameVersion = "1.4.1";
+var newestVersion = 5;
 var selectedVersion = newestVersion;
 
 const patchnotes = {
@@ -43,6 +43,13 @@ const patchnotes = {
             "- Changed some white texts to black",
             "- Fixed error message appearing when playing for the first time",
         ],
+    "v1.4.1":
+        [
+            "- Implemented WGGJ",
+            "- Changed answer buttons to be less distracting / easier to read fast",
+            "- Increased amount of quote characters per line from 42 to 64, as text scales better now",
+            "- Added donate button"
+        ]
 }
 
 scenes["patchnotes"] = new Scene(
@@ -50,13 +57,13 @@ scenes["patchnotes"] = new Scene(
         // Init
         createSquare("bg", 0, 0, 1, 1, "#c7daff");
 
-        createText("header", 0.5, 0.1, "Patch notes", "black", 80);
+        createText("header", 0.5, 0.1, "Patch notes", { size: 80 });
 
         // Back button
         createButton("backbutton", 0.4, 0.875, 0.2, 0.1, "button", () => {
             loadScene("mainmenu");
         });
-        createText("buttonText", 0.5, 0.95, "Back", "black", 40);
+        createText("buttonText", 0.5, 0.95, "Back", { size: 40 });
 
         // Top navigation
         createSquare("topBgSquare", 0.1, 0.1, 0.8, 0.1, "darkgray");
@@ -66,18 +73,18 @@ scenes["patchnotes"] = new Scene(
             if (selectedVersion > 0) selectedVersion -= 1;
             objects["versionText"].text = "Version " + Object.keys(patchnotes)[selectedVersion];
         });
-        createText("goLeftText", 0.125, 0.185, "<", "black", 60);
+        createText("goLeftText", 0.125, 0.185, "<", { size: 60 });
 
         createButton("goRight", 0.85, 0.1, 0.05, 0.1, "button", () => {
             if (selectedVersion < newestVersion) selectedVersion += 1;
             objects["versionText"].text = "Version " + Object.keys(patchnotes)[selectedVersion];
         });
-        createText("goRightText", 0.875, 0.185, ">", "black", 60);
+        createText("goRightText", 0.875, 0.185, ">", { size: 60 });
 
-        createText("versionText", 0.5, 0.185, "Version v" + gameVersion, "black", 40);
+        createText("versionText", 0.5, 0.185, "Version v" + gameVersion, { size: 40 });
 
         for (vtc = 0; vtc < 32; vtc++) {
-            createText("text" + vtc, 0.1125, 0.225 + (0.02 * vtc), "", "black", 20, "left");
+            createText("text" + vtc, 0.1125, 0.225 + (0.02 * vtc), "", { size: 20, align: "left" });
         }
     },
     (tick) => {

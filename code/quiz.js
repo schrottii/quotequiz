@@ -298,27 +298,9 @@ function toggleNSFW() {
     save.settings.nsfw = !save.settings.nsfw;
 }
 
-// Essential functions
-/*
-var oldTime = 0;
-function loop(tick) {
-    let time = (tick - oldTime) / 1000;
-    oldTime = tick;
-
-    
-
-
-    window.requestAnimationFrame(loop);
-}
-*/
-/*
 if (localStorage.getItem("QUOTEQUIZ") != undefined) {
     loadSave();
 }
 else {
     newSave();
 }
-*/
-// Start game
-//updateSettings();
-//window.requestAnimationFrame(loop);

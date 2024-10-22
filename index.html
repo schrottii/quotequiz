@@ -8,58 +8,17 @@
     <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <audio id="musicPlayer" type="audio/ogg" preload="auto"></audio>
-    <canvas id="canvas"></canvas>
+    <audio id="wggjAudio" type="audio/ogg" preload="auto"></audio>
+    <canvas id="wggjCanvas"></canvas>
 
-    <!--
-    <h1>QuoteQuiz</h1>
-
-    <h2>Play</h2>
-    <button id="startButton" onclick="start()">Start Game</button><br />
-    <span id="infoDisplay" class="info"></span> <br />
-    <div id="playArea" style="display: none">
-        <span id="quoteDisplay" class="currentQuote"></span>
-        <div id="answerButtons"></div>
-    </div>
-    <span id="bottomInfo" class="info"></span> <br />
-
-    <h2>Player</h2>
-    <span id="playerInfo" class="info"></span> <br />
-    <button id="nameButton" onclick="changePlayerName()">Change Name</button><br />
-    <button id="exportButton" onclick="exportSave()">Export Save</button>
-    <button id="importButton" onclick="importSave()">Import Save</button>
-    <button id="resetButton" onclick="resetSave()">Delete Save</button>
-    <button id="nsfwButton" onclick="toggleNSFW()">NSFW</button><br />
-
-    <h2>How to Play</h2>
-    1. Click "Start Game" to start a game, containing 20 rounds!<br />
-    2. In each round, a quote is presented, and 4 buttons of people who might have said it. Only one option is correct.<br />
-    3. Each round has a time limit of 10 seconds. Trophies received are based on the answer speed, ranging from 1 to 10 (faster than 1 second)<br />
-    4. Answering incorrectly or letting the time run out takes the trophies from the question away. Answering slower does not.<br />
-    Have fun!
-
-    <h2>Credits</h2>
-    Game made by Schrottii (started on 2023-12-02)<br />
-    Quotes collected by Schrottii and shgabb<br />
-    Inspired by shgabb and Playwo<br /><br />
-    <a href="https://schrottii.github.io/">Click here to see my other games!</a>
-
-    <h3>Patch notes</h3>
-    Version 1.1 (2023-12-09):<br />
-    - Changed host <br />
-    - Added support for rescue codes <br />
-    - Added 25 new quotes! (75 total) <br />
-    - Added recalculation of trophies, to prevent having more than 10 from a single quote <br />
-    - Added a short patch notes section
-        -->
-
+    <script src="code/wggj.js"></script>
     <script src="code/quotes.js"></script>
     <script src="code/quiz.js"></script>
     <script src="code/main.js"></script>
 
-    <script src="scenes/mainmenu.js"></script>
-    <script src="scenes/settings.js"></script>
-    <script src="scenes/play.js"></script>
-    <script src="scenes/patchnotes.js"></script>
+    <script src="code/scenes/mainmenu.js"></script>
+    <script src="code/scenes/settings.js"></script>
+    <script src="code/scenes/play.js"></script>
+    <script src="code/scenes/patchnotes.js"></script>
 </body>
 </html>

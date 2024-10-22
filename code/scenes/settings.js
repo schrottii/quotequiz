@@ -15,21 +15,21 @@ scenes["settings"] = new Scene(
         createImage("menuground", 0, 0.8, 2, 0.1, "menuground");
         createImage("menuground3", 0, 0, 2, 0.1, "menuground");
 
-        createText("header", 0.5, 0.2, "Settings", "black", 80);
+        createText("header", 0.5, 0.2, "Settings", { size: 80 });
 
         // Back button
         createButton("backbutton", 0.4, 0.875, 0.2, 0.1, "button", () => {
             saveSave();
             loadScene("mainmenu");
         });
-        createText("buttonText", 0.5, 0.95, "Save", "black", 40);
+        createText("buttonText", 0.5, 0.95, "Save", { size: 40 });
 
         // Settings
         createButton("setting1", 0.1, 0.3, 0.4, 0.1, "button", () => {
             save.settings.music = !save.settings.music;
             updateSettings();
         });
-        createText("settingText1", 0.3, 0.375, "?", "black", 40);
+        createText("settingText1", 0.3, 0.375, "?", { size: 40 });
 
         createButton("setting2", 0.1, 0.45, 0.4, 0.1, "button", () => {
             switch (save.settings.device) {
@@ -45,13 +45,13 @@ scenes["settings"] = new Scene(
             }
             updateSettings();
         });
-        createText("settingText2", 0.3, 0.525, "?", "black", 40);
+        createText("settingText2", 0.3, 0.525, "?", { size: 40 });
 
         createButton("setting3", 0.1, 0.6, 0.4, 0.1, "button", () => {
             save.settings.nsfw = !save.settings.nsfw;
             updateSettings();
         });
-        createText("settingText3", 0.3, 0.675, "?", "black", 40);
+        createText("settingText3", 0.3, 0.675, "?", { size: 40 });
 
 
 
@@ -59,19 +59,19 @@ scenes["settings"] = new Scene(
             importSave();
             updateSettings();
         });
-        createText("settingText4", 0.7, 0.375, "Import", "black", 40);
+        createText("settingText4", 0.7, 0.375, "Import", { size: 40 });
 
         createButton("setting5", 0.5, 0.45, 0.4, 0.1, "button", () => {
             exportSave();
             updateSettings();
         });
-        createText("settingText5", 0.7, 0.525, "Export", "black", 40);
+        createText("settingText5", 0.7, 0.525, "Export", { size: 40 });
 
         createButton("setting6", 0.5, 0.6, 0.4, 0.1, "button", () => {
             changePlayerName();
             updateSettings();
         });
-        createText("settingText6", 0.7, 0.675, "Name", "black", 40);
+        createText("settingText6", 0.7, 0.675, "Name", { size: 40 });
 
         // Inite
         updateSettings();

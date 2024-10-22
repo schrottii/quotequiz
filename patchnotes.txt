@@ -20,4 +20,21 @@ Version 1.3 (2024-04-30)
 - Reduced ground speed while playing
 
 Version 1.4 (2024-07-23)
-...
+-> New content:
+- Added patch notes menu
+- Added 25 new quotes! (125 total)
+- Changed background color (brighter), for better text readability
+-> Player stats:
+- Added amount of perfected quotes (10/10 score)
+- Increased space between stats
+-> Other:
+- Moved the quote's text a bit lower, to stand out more
+- Name setting now shows the current name
+- Changed some white texts to black
+- Fixed error message appearing when playing for the first time
+
+Version 1.4.1 (2024-10-22)
+- Implemented WGGJ
+- Changed answer buttons to be less distracting / easier to read fast
+- Increased amount of quote characters per line from 42 to 64, as text scales better now
+- Added donate button
