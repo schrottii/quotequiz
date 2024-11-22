@@ -6,11 +6,18 @@
         createImage("menuground", 0, 0, 2, 0.1, "menuground");
         createImage("menuground2", 0, 0.9, 2, 0.1, "menuground");
 
-        // Text
-        createText("quoteText", 0.5, 0.34, "...", { size: 40 });
-        createText("quoteText2", 0.5, 0.38, "", { size: 40 });
+        // Info like time remaining
+        createSquare("quoteInfoBG", 0.3, 0.15, 0.4, 0.11, "#A1B0CC");
         createText("quoteInfo", 0.5, 0.25, "", { size: 40 });
         createText("quoteInfo2", 0.5, 0.2, "", { size: 40 });
+
+        createSquare("timeRemainingBG", 0.3, 0.26, 0.4, 0.02, "black");
+        createSquare("timeRemaining", 0.3, 0.26, 0, 0.02, "yellow");
+
+        // Quote content (the quote itself)
+        createSquare("quoteTextBG", 0.18, 0.28, 0.64, 0.12, "white");
+        createText("quoteText", 0.5, 0.34, "...", { size: 40 });
+        createText("quoteText2", 0.5, 0.38, "", { size: 40 });
 
         // Buttons
         createButton("answer1", 0.1, 0.6, 0.3, 0.1, "#000000", () => { clickButton(0) })
@@ -26,6 +33,7 @@
     (tick) => {
         // Loop
 
+        // Update ground animations
         groundAnimation += tick / 4;
         objects["menuground"].x -= tick / 4;
         objects["menuground2"].x -= tick / 4;
@@ -35,8 +43,13 @@
             objects["menuground2"].x = 0;
         }
 
-        objects["quoteText"].text = getQuote(currentGame.currentQuote).text.substr(0, 64);
-        objects["quoteText2"].text = getQuote(currentGame.currentQuote).text.substr(64);
+        // Update quote text
+        let quoteDesc = getQuote(currentGame.currentQuote).text;
+        objects["quoteText"].text = quoteDesc.length > 64 ? quoteDesc.substr(0, quoteDesc.substr(0, 64).lastIndexOf(" ")) : quoteDesc;
+        objects["quoteText2"].text = quoteDesc.length > 64 ? quoteDesc.substr(quoteDesc.substr(0, 64).lastIndexOf(" ") + 1) : "";
+
+        // Update info area
+        objects["timeRemaining"].w = 0.4 * (currentGame.currentTime / roundDuration);
 
         if (!currentGame.active) {
             objects["quoteInfo"].text = ((save.trophies - currentGame.trophiesBefore) >= 0 ? "+" : "") + (save.trophies - currentGame.trophiesBefore) + " trophies!";

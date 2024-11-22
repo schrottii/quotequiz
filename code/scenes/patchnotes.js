@@ -1,5 +1,5 @@
-var gameVersion = "1.4.1";
-var newestVersion = 5;
+var gameVersion = "1.4.2";
+var newestVersion = 6;
 var selectedVersion = newestVersion;
 
 const patchnotes = {
@@ -49,7 +49,14 @@ const patchnotes = {
             "- Changed answer buttons to be less distracting / easier to read fast",
             "- Increased amount of quote characters per line from 42 to 64, as text scales better now",
             "- Added donate button"
-        ]
+        ],
+    "v1.4.2":
+        [
+            "- Added a bar that shows the remaining round duration",
+            "- Different background colors behind the round info, and the quote",
+            "- Quotes are no longer cut off mid-word (line split)",
+            "- Added feedback after exporting a save",
+        ],
 }
 
 scenes["patchnotes"] = new Scene(

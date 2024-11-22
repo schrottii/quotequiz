@@ -1,6 +1,8 @@
 Version 1.0 (released on 2023-12-04)
 -
 
+
+
 Version 1.1 (released on 2023-12-09)
 - Changed host
 - Added support for rescue codes
@@ -8,10 +10,14 @@ Version 1.1 (released on 2023-12-09)
 - Added recalculation of trophies, to prevent having more than 10 from a single quote
 - Added a short patch notes section
 
+
+
 Version 1.2 (2024-04-18)
 - Reworked the game
 - Added 2 songs
 - Added settings to toggle music and device
+
+
 
 Version 1.3 (2024-04-30)
 - Added 25 new quotes! (100 total)
@@ -19,22 +25,36 @@ Version 1.3 (2024-04-30)
 - Re-added message after finishing all 20 questions showing the time, trophies gained and amount of correct answers, click to continue
 - Reduced ground speed while playing
 
+
+
 Version 1.4 (2024-07-23)
 -> New content:
 - Added patch notes menu
 - Added 25 new quotes! (125 total)
 - Changed background color (brighter), for better text readability
+
 -> Player stats:
 - Added amount of perfected quotes (10/10 score)
 - Increased space between stats
+
 -> Other:
 - Moved the quote's text a bit lower, to stand out more
 - Name setting now shows the current name
 - Changed some white texts to black
 - Fixed error message appearing when playing for the first time
 
+
+
 Version 1.4.1 (2024-10-22)
 - Implemented WGGJ
 - Changed answer buttons to be less distracting / easier to read fast
 - Increased amount of quote characters per line from 42 to 64, as text scales better now
 - Added donate button
+
+
+
+Version 1.4.2 (2024-11-22)
+- Added a bar that shows the remaining round duration
+- Different background colors behind the round info, and the quote
+- Quotes are no longer cut off mid-word (line split)
+- Added feedback after exporting a save

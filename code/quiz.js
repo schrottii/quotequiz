@@ -125,6 +125,8 @@ function saveSave() {
 function exportSave() {
     let toExport = saveSave();
     navigator.clipboard.writeText(toExport);
+
+    alert("Your save code has been exported to your clipboard!");
 }
 
 function importSave() {
