@@ -6,7 +6,14 @@ images = {
     whiteWebsite: "white-website.png",
     menuground: "menu-ground.png",
     menuground2: "menu-ground2.png",
+
+    "characters/unknown": "characters/unknown.png",
 }
+
+for (let c in characters) {
+    images[characters[c].imageSrc] = characters[c].imageSrc + ".png";
+}
+
 GAMENAME = "QuoteQuiz";
 FONT = "Rw";
 wggjLoadImages();

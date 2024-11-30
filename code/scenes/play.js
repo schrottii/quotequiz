@@ -29,18 +29,25 @@
         createText("answerText2", 0.25 + 0.5, 0.675, "", { size: 40, color: "white" });
         createText("answerText3", 0.25, 0.675 + 0.15, "", { size: 40, color: "white" });
         createText("answerText4", 0.25 + 0.5, 0.675 + 0.15, "", { size: 40, color: "white" });
+
+        createImage("characterImage1", 0.05, 0.625, 0.05, 0.05, "characters/unknown", { quadratic: true, centered: true });
+        createImage("characterImage2", 0.95, 0.625, 0.05, 0.05, "characters/unknown", { quadratic: true, centered: true });
+        createImage("characterImage3", 0.05, 0.775, 0.05, 0.05, "characters/unknown", { quadratic: true, centered: true });
+        createImage("characterImage4", 0.95, 0.775, 0.05, 0.05, "characters/unknown", { quadratic: true, centered: true });
     },
     (tick) => {
         // Loop
 
         // Update ground animations
-        groundAnimation += tick / 4;
-        objects["menuground"].x -= tick / 4;
-        objects["menuground2"].x -= tick / 4;
-        if (groundAnimation >= 1) {
-            groundAnimation = 0;
-            objects["menuground"].x = 0;
-            objects["menuground2"].x = 0;
+        if (save.settings.groundanimations) {
+            groundAnimation += tick / 4;
+            objects["menuground"].x -= tick / 4;
+            objects["menuground2"].x -= tick / 4;
+            if (groundAnimation >= 1) {
+                groundAnimation = 0;
+                objects["menuground"].x = 0;
+                objects["menuground2"].x = 0;
+            }
         }
 
         // Update quote text
@@ -58,15 +65,15 @@
         else {
             objects["quoteInfo"].text = "Question " + currentGame.questionCount + "/" + roundAmount + "  |  " + currentGame.currentTime.toFixed(1) + "s";
 
-            if (currentGame.currentTime <= 10) objects["quoteInfo2"].text = (Math.ceil(save.answers[currentGame.currentQuote][0]) == 10 ? "⭐" : Math.ceil(save.answers[currentGame.currentQuote][0]) + "/10");
-            else objects["quoteInfo2"].text = (Math.ceil(save.answers[currentGame.currentQuote][0]) == 10 ? "⭐ " : "") + (["", "Right!", "Wrong!"][currentGame.previousAnswer]);
+            if (currentGame.currentTime <= roundDuration - 1) objects["quoteInfo2"].text = (Math.ceil(save.answers[currentGame.currentQuote][0]) == 10 ? "⭐" : Math.ceil(save.answers[currentGame.currentQuote][0]) + "/10");
+            else objects["quoteInfo2"].text = (Math.ceil(save.answers[currentGame.currentQuote][0]) == 10 ? "⭐ " : "") + (["", "Right!", "Wrong!"][currentGame.previousAnswer]) + (currentGame.mode == "practice" ? " Correct: " + getCharacterByName(currentGame.previousWinner).displayName : "");
         }
 
         // Update buttons
         if (currentGame.active) {
             for (at = 1; at < 5; at++) {
-                if (currentGame.currentTime <= 10) {
-                    objects["answerText" + at].text = currentGame.currentPeople[at - 1];
+                if (currentGame.currentTime <= roundDuration - 1) {
+                    objects["answerText" + at].text = getCharacterByName(currentGame.currentPeople[at - 1]).displayName;
                 }
                 else {
                     objects["answerText" + at].text = "";
@@ -79,6 +86,13 @@
                 objects["answer" + at].y = 500;
             }
             objects["answerText4"].text = "Click to continue";
+        }
+
+        // Character images
+        for (let img = 0; img < 4; img++) {
+            objects["characterImage" + (img + 1)].w = objects["characterImage" + (img + 1)].h = isMobile() ? 0.05 : 0.1;
+            if (currentGame.currentPeople.length > 3 && currentGame.currentTime <= roundDuration - 1) objects["characterImage" + (img + 1)].image = getCharacterByName(getQuote(currentGame.currentQuote).user).imageSrc == "characters/unknown" ? "characters/unknown" : getCharacterByName(currentGame.currentPeople[img]).imageSrc;
+            else objects["characterImage" + (img + 1)].image = "characters/unknown";
         }
     }
 );

@@ -23,8 +23,7 @@ scenes["mainmenu"] = new Scene(
             wggjAudio.volume = save.settings.music ? 1 : 0;
             if (save.settings.music) wggjAudio.play();
 
-            start();
-            loadScene("play");
+            loadScene("modeselection");
         });
         createText("buttonText1", 0.5, 0.475, "Play", { size: 40 });
 
@@ -76,14 +75,15 @@ scenes["mainmenu"] = new Scene(
     },
     (tick) => {
         // Loop
-        
-        groundAnimation += tick / 2;
-        objects["menuground"].x -= tick / 2;
-        objects["menuground3"].x -= tick / 2;
-        if (groundAnimation >= 1) {
-            groundAnimation = 0;
-            objects["menuground"].x = 0;
-            objects["menuground3"].x = 0;
+        if (save.settings.groundanimations) {
+            groundAnimation += tick / 2;
+            objects["menuground"].x -= tick / 2;
+            objects["menuground3"].x -= tick / 2;
+            if (groundAnimation >= 1) {
+                groundAnimation = 0;
+                objects["menuground"].x = 0;
+                objects["menuground3"].x = 0;
+            }
         }
 
         if (isMobile()) {

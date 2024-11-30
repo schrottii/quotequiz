@@ -1,5 +1,5 @@
-var gameVersion = "1.4.2";
-var newestVersion = 6;
+var gameVersion = "1.5";
+var newestVersion = 7;
 var selectedVersion = newestVersion;
 
 const patchnotes = {
@@ -56,6 +56,32 @@ const patchnotes = {
             "- Different background colors behind the round info, and the quote",
             "- Quotes are no longer cut off mid-word (line split)",
             "- Added feedback after exporting a save",
+        ],
+    "v1.5":
+        [
+            "-> New content:",
+            "- Added 25 new quotes! (150 total)",
+            "- New feature: Modes",
+            "- Character changes",
+
+            "-> Modes:",
+            "- New feature, unlocked from the start",
+            "- Modes can have a specific set of questions, or different rules",
+            "- For now there are only 2 modes, but many more will be added",
+            "- New mode: Normal (same as usual)",
+            "- New mode: Practice Mode (no trophies gained/lost, more time, shows correct answer)",
+
+            "-> Characters:",
+            "- Changed how characters (users) are saved",
+            "- Their names are now capitalized",
+            "- Added images for the most common characters!",
+            "- These images are directly taken from quotes, contact me if you want your image changed",
+            "- Sometimes the images are hidden to prevent an easy win",
+
+            "-> Settings:",
+            "- Re-added the setting to delete the save (which was missing since v1.2)",
+            "- Added a new setting to disable ground animations... they can be distracting",
+            "- Moved the name setting"
         ],
 }
 

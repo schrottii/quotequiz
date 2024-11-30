@@ -1,3 +1,14 @@
+1.0
+1.1
+1.2
+1.3
+1.4
+1.4.1
+1.4.2
+1.5
+
+
+
 Version 1.0 (released on 2023-12-04)
 -
 
@@ -58,3 +69,30 @@ Version 1.4.2 (2024-11-22)
 - Different background colors behind the round info, and the quote
 - Quotes are no longer cut off mid-word (line split)
 - Added feedback after exporting a save
+
+
+
+Version 1.5 (2024-11-30)
+-> New content:
+- Added 25 new quotes! (150 total)
+- New feature: Modes
+- Character changes
+
+-> Modes:
+- New feature, unlocked from the start
+- Modes can have a specific set of questions, or different rules
+- For now there are only 2 modes, but many more will be added
+- New mode: Normal (same as usual)
+- New mode: Practice Mode (no trophies gained/lost, more time, shows correct answer)
+
+-> Characters:
+- Changed how characters (users) are saved
+- Their names are now capitalized
+- Added images for the most common characters!
+- These images are directly taken from quotes, contact me if you want your image changed
+- Sometimes the images are hidden to prevent an easy win
+
+-> Settings:
+- Re-added the setting to delete the save (which was missing since v1.2)
+- Added a new setting to disable ground animations... they can be distracting
+- Moved the name setting

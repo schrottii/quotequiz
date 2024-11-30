@@ -13,24 +13,47 @@
     }
 }
 
-/*
-function renderAllQuotes() {
-    let render = "";
-
-    for (q in quotes) {
-        render = render + quotes[q].render() + "<br />";
+class Character {
+    constructor(rawName, displayName, imageSrc) {
+        this.rawName = rawName;
+        this.displayName = displayName;
+        this.imageSrc = imageSrc;
     }
-
-    ui.quoteDisplay.innerHTML = render;
 }
-*/
 
-const usernames = ["shgabb", "schrottii", "elmenda", "slowmerger", "phazer", "endte", "kwhale", "dagame", "avexohsf", "barduzzi", "onenever", "brickman", "fishka", "decastar", "tpot"];
+function getCharacterByName(name) {
+    for (let c in characters) {
+        if (characters[c].rawName == name) return characters[c];
+    }
+    return new Character(name, name.substr(0, 1).toUpperCase() + name.substr(1), "characters/unknown");
+}
+
+const characters = [
+    new Character("shgabb", "Shgabb", "characters/a32-shgabb"),
+    new Character("schrottii", "Schrottii", "characters/b599-schrottii"),
+    new Character("elmenda", "elmenda452", "characters/a28-elmenda"),
+    new Character("slowmerger", "Slowmerger", "characters/a11-slowmerger"),
+    new Character("phazer", "Phazer", "characters/a129-phazer"),
+    new Character("endte", "Endte", "characters/a42-endte"),
+    new Character("kwhale", "K. Whale", "characters/a111-kwhale"),
+    new Character("dagame", "DaGame", "characters/a88-dagame"),
+    new Character("avexohsf", "avexohsf", "characters/a200-avex"),
+    new Character("barduzzi", "Barduzzi", "characters/a140-barduzzi"),
+    new Character("onenever", "OneNeverwind", "characters/a21-onenever"),
+    new Character("brickman", "Brickman", "characters/brickman"),
+    new Character("fishka", "Fishka", "characters/a7-fishka"),
+    new Character("decastar", "Decastar", "characters/a262-decastar"),
+    new Character("tpot", "Tpot2vsBfb4", "characters/b967-tpot"),
+    new Character("helly", "Helly", "characters/a152-helly"),
+    new Character("alice", "Alice", "characters/a239-alice"),
+];
 
 const quotes = [
     // Schrottii
     new Quote("a1", 1.0, false, "noya", "Why is schrotti so smart"),
     new Quote("a2", 1.1, false, "shgabb", "nothing like getting flexed on 3 times in a row"),
+    new Quote("a3", 1.5, false, "shgabb", "i don't really care about the points :wink:"),
+    new Quote("a4", 1.5, true, "shgabb", "boobs and a good sense of humor is all i need ^^"),
     new Quote("a5", 1.0, false, "shgabb", "(note : all the quotes i send are from complete shitpost conversations and should not be taken seriously)"),
     new Quote("a7", 1.0, false, "fishka", "Just imagine, when you need a year to get them, it's only about 8 min fb for me"),
     new Quote("a8", 1.0, true, "slowmerger", "Also I accidentaly joined mario server, fuck"),
@@ -92,22 +115,37 @@ const quotes = [
     new Quote("a238", 1.4, false, "slowmerger", "pray."),
     new Quote("a239", 1.4, false, "alice", "It is May 11th, 2024!"),
     new Quote("a240", 1.4, false, "alice", "Your opinion is wrong :yay:"),
+    new Quote("a253", 1.5, false, "madnugget", "does seniority imply superiority?"),
     new Quote("a254", 1.4, false, "kuitti", "oh no, im not THAT allergic to progress"),
     new Quote("a257", 1.4, true, "elmenda", "fuck you tim cook"),
     new Quote("a258", 1.4, false, "elmenda", "edison intensifies"),
     new Quote("a262", 1.4, false, "decastar", "my brain is disintegrating"),
     new Quote("a269", 1.4, false, "elmenda", "technically that's an egoistical quote"),
     new Quote("a270", 1.4, false, "dagame", "fart instead of active silicone"),
+    new Quote("a279", 1.5, false, "elmenda", "went way too obscure there"),
+    new Quote("a281", 1.5, false, "elmenda", "lmao   well you should get beheaded"),
+    new Quote("a291", 1.5, false, "moaz", "Okay that's nightmare fuel"),
+    new Quote("a293", 1.5, false, "kwhale", "my bus sometimes teleports"),
+    new Quote("a294", 1.5, false, "elmenda", "conspiracy theory"),
+    new Quote("a296", 1.5, true, "avexohsf", "🇦🇴 NAZI USSR"),
+    new Quote("a297", 1.5, false, "VrimVram", "Who luna"),
+    new Quote("a298", 1.5, false, "myangelsagiri", ":sob:   she's such a devil wtf   is it because i accidentally called her flat"),
+    new Quote("a299", 1.5, false, "myangelsagiri", "so you still flat?"),
 
     // shgabb
+    new Quote("b579", 1.5, false, "elmenda", "tu abuela en tanga yendo en triciclo"),
+    new Quote("b584", 1.5, false, "varlyne", "For doing 20 millions merges, you need to do 20 Millions merges"),
     new Quote("b589", 1.4, true, "slowmerger", "Y you left Cunt"),
     new Quote("b591", 1.0, true, "dagame", "I found the Hitler"),
     new Quote("b592", 1.1, true, "decastar", "Pussy meowing on my lap rn"),
     new Quote("b599", 1.4, false, "schrottii", "tl;dr: she is hot"),
+    new Quote("b600", 1.5, true, "schrottii", "it's very hard to see your penis"),
     new Quote("b601", 1.1, false, "slowmerger", "Go swim in the forest"),
     new Quote("b611", 1.0, true, "schrottii", "get fucked democratically"),
     new Quote("b612", 1.4, true, "schrottii", "I prefer 16 year olds"),
     new Quote("b613", 1.0, false, "dagame", "Okay I'm gonna breakfasting see you yesterday :excellent:"),
+    new Quote("b615", 1.5, true, "shgabb", "yuu mâdèrfûkér !!! :haram:"),
+    new Quote("b616", 1.5, true, "elmenda", "the entire point of the general channel is to insert suicidal thoughts into people"),
     new Quote("b619", 1.1, false, "barduzzi", "Hello, I'm WhatsApp, are you suing me"),
     new Quote("b625", 1.0, false, "fishka", "Thanks for your opinion"),
     new Quote("b640", 1.4, true, "elmenda", "consider fucking"),
@@ -129,7 +167,12 @@ const quotes = [
     new Quote("b779", 1.1, true, "shgabb", "googoo motherfucking gaga"),
     new Quote("b782", 1.4, true, "slowmerger", "*claps with my penis*"),
     new Quote("b789", 1.1, true, "thekingoftrash", "cryogenically freeze yourself"),
+    new Quote("b804", 1.5, true, "schrottii", "show me ur tits pls"),
+    new Quote("b807", 1.5, true, "slowmerger", "!kill myself"),
+    new Quote("b810", 1.5, true, "schrottii", "HA   I KILLED A TRANS MF"),
+    new Quote("b811", 1.5, true, "helly", "Omg tf2 refrence   i will kill myself"),
     new Quote("b818", 1.1, false, "kwhale", "i think the biggest number is 40"),
+    new Quote("b821", 1.5, true, "helly", "i will shit yourself"),
     new Quote("b822", 1.0, false, "schrottii", "thank you for this info, I will now ban you from the game"),
     new Quote("b826", 1.1, false, "helly", "OwO    UwU    There is no reason to live"),
     new Quote("b837", 1.0, true, "barduzzi", "let's cum on me :D"),
@@ -142,6 +185,7 @@ const quotes = [
     new Quote("b862", 1.0, true, "schrottii", "it's useful for the hentai roleplay server I am in"),
     new Quote("b883", 1.0, false, "shgabb", "yea i use dish soap as shampoo"),
     new Quote("b889", 1.0, true, "avexohsf", "Man it's all shits and giggles until someone giggles and shits"),
+    new Quote("b897", 1.5, true, "slowmerger", "Penis my beloved"),
     new Quote("b898", 1.0, true, "schrottii", "Roses are red, pussies are wet"),
     new Quote("b902", 1.0, false, "barduzzi", "got my pc password wrong 2 times till i realized i was typing elmenda"),
     new Quote("b903", 1.0, false, "nemesis", "I'm not Nemesis"),
@@ -149,8 +193,10 @@ const quotes = [
     new Quote("b908", 1.4, true, "schrottii", "I have a fork fetish too :)"),
     new Quote("b911", 1.0, false, "schrottii", "I enjoy eating people"),
     new Quote("b919", 1.0, false, "shgabb", "i'm not affraid of brain eating amoebas    they gonna starve to death"),
+    new Quote("b930", 1.5, false, "schrottii", "I also use cheat"),
     new Quote("b948", 1.0, false, "decastar", "cancer 🥰"),
     new Quote("b954", 1.0, false, "varlyne", "When I'll grow up I'll be a pilot I'LL SACRIFICE MY LIFE FOR PAKISTAN"),
+    new Quote("b955", 1.5, true, "schrottii", "have you ever spermed a whale"),
     new Quote("b956", 1.0, false, "schrottii", "communism 🥰"),
     new Quote("b961", 1.1, true, "schrottii", "yeaaaa my pussy 😎"),
     new Quote("b964", 1.0, false, "kwhale", "im gonna insult everyone"),

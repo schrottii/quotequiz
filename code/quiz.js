@@ -3,13 +3,14 @@
 // Main Script
 
 // Variables
-const roundDuration = 11;
+var roundDuration = 11;
 const roundAmount = 20;
 
 var hideTimer = -60;
 var perfectAnswers = 0;
 
 var currentGame = {
+    mode: "normal",
     active: false,
     currentQuote: "",
     totalTime: 0,
@@ -21,6 +22,7 @@ var currentGame = {
     questionsWrong: 0,
     trophiesBefore: 0,
     previousAnswer: 0,
+    previousWinner: "",
 }
 
 var save = {
@@ -34,11 +36,18 @@ var save = {
         totalRight: 0,
         totalWrong: 0,
         totalTime: 0,
+
+        normalGames: 0,
+        normalAnswered: 0,
+        normalRight: 0,
+        normalWrong: 0,
+        normalTime: 0,
     },
     settings: {
         nsfw: false,
         music: true,
         device: "automatic",
+        groundanimations: true,
     },
     answers: {
 
@@ -93,6 +102,14 @@ function loadSave(origin = "none") {
             save.answers[e] = loadingSave.answers[e];
         }
 
+        if (loadingSave.stats.normalGames == undefined) {
+            save.normalGames = loadingSave.totalGames;
+            save.normalAnswered = loadingSave.totalAnswered;
+            save.normalRight = loadingSave.totalRight;
+            save.normalWrong = loadingSave.totalWrong;
+            save.normalTime = loadingSave.totalTime;
+        }
+
         recalculateTrophies();
         saveSave();
     }
@@ -136,7 +153,7 @@ function importSave() {
     loadSave(toImport);
 }
 
-function resetSave() {
+function deleteSave() {
     if (confirm("Are you really sure you want to delete your save?")) {
         if (confirm("You will lose everything! Consider exporting your save first!")) {
             if (confirm("If you press yes again everything will be gone!!!!!!!!!!")) {
@@ -147,7 +164,9 @@ function resetSave() {
 }
 
 // start game
-function start() {
+function start(mode) {
+    currentGame.mode = mode;
+
     currentGame.active = true;
     currentGame.totalTime = 0;
     currentGame.questionCount = 1;
@@ -155,7 +174,11 @@ function start() {
     currentGame.questionsWrong = 0;
     currentGame.trophiesBefore = save.trophies;
 
+    roundDuration = 11; // normal
+    if (currentGame.mode == "practice") roundDuration = 20; 
+
     save.stats.totalGames += 1;
+    if (currentGame.mode == "normal") save.stats.normalGames += 1;
 
     /*
     ui.startButton.style.display = "none";
@@ -186,9 +209,11 @@ function roundWon() {
     currentGame.questionsRight += 1;
     currentGame.previousAnswer = 1;
     save.stats.totalAnswered += 1;
+    if (currentGame.mode == "normal") save.stats.normalAnswered += 1;
     save.stats.totalRight += 1;
+    if (currentGame.mode == "normal") save.stats.normalRight += 1;
 
-    if (save.answers[currentGame.currentQuote] != undefined) {
+    if (save.answers[currentGame.currentQuote] != undefined && currentGame.mode != "practice") {
         // Was answered before
         if (Math.ceil(Math.min(10, currentGame.currentTime)) > Math.ceil(save.answers[currentGame.currentQuote][0])) {
             // I was faster
@@ -207,9 +232,11 @@ function roundLost() {
     currentGame.questionsWrong += 1;
     currentGame.previousAnswer = 2;
     save.stats.totalAnswered += 1;
+    if (currentGame.mode == "normal") save.stats.normalAnswered += 1;
     save.stats.totalWrong += 1;
+    if (currentGame.mode == "normal") save.stats.normalWrong += 1;
 
-    if (save.answers[currentGame.currentQuote] != undefined) {
+    if (save.answers[currentGame.currentQuote] != undefined && currentGame.mode != "practice") {
         // Was answered before
         save.trophies -= Math.ceil(save.answers[currentGame.currentQuote][0]);
         save.answers[currentGame.currentQuote][0] = 0; // failed
@@ -222,6 +249,9 @@ function roundLost() {
 
 function end() {
     currentGame.active = false;
+
+    save.stats.totalTime += currentGame.totalTime;
+    if (currentGame.mode == "normal") save.stats.normalTime += currentGame.totalTime;
 
     /*
     ui.startButton.style.display = "";
@@ -238,6 +268,8 @@ function end() {
 
 // game is running
 function pickQuote() {
+    if (currentGame.currentQuote != "") currentGame.previousWinner = getQuote(currentGame.currentQuote).user;
+
     currentGame.currentQuote = "";
     while (currentGame.currentQuote == "" || (getQuote(currentGame.currentQuote).nsfw && !save.settings.nsfw)) {
         currentGame.currentQuote = quotes[Math.floor(quotes.length * Math.random())].id;
@@ -254,22 +286,22 @@ function getQuote(id) {
 function generatePeople() {
     currentGame.currentPeople = [];
 
-    let theWinner = getQuote(currentGame.currentQuote).user;
+    let theWinner = getCharacterByName(getQuote(currentGame.currentQuote).user).rawName;
     currentGame.winnerNumber = Math.floor(Math.random() * 4);
 
     for (pe = 0; pe < 4; pe++) {
         if (pe == currentGame.winnerNumber) currentGame.currentPeople.push(theWinner);
         else {
             // v to avoid the winner eppearing twice
-            let randomPPL = usernames[Math.floor(Math.random() * usernames.length)];
-            while (randomPPL == getQuote(currentGame.currentQuote).user) randomPPL = usernames[Math.floor(Math.random() * usernames.length)];
+            let randomPPL = characters[Math.floor(Math.random() * characters.length)].rawName;
+            while (randomPPL == getQuote(currentGame.currentQuote).user) randomPPL = characters[Math.floor(Math.random() * characters.length)].rawName;
             currentGame.currentPeople.push(randomPPL);
         }
     }
 }
 
 function clickButton(bu) {
-    if (currentGame.currentTime <= 10) {
+    if (currentGame.currentTime <= roundDuration - 1) {
         if (currentGame.winnerNumber == bu) {
             roundWon();
         }

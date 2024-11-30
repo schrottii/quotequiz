@@ -2,10 +2,11 @@ scenes["settings"] = new Scene(
     () => {
         // Init
         function updateSettings() {
-            objects["settingText1"].text = "Music " + (save.settings.music ? "ON" : "OFF");
-            objects["settingText2"].text = "Device " + save.settings.device.substr(0, 1).toUpperCase() + save.settings.device.substr(1);
-            objects["settingText3"].text = "NSFW " + (save.settings.nsfw ? "ON" : "OFF");
-            objects["settingText6"].text = "Name: " + save.name;
+            objects["settingText1"].text = "Music: " + (save.settings.music ? "ON" : "OFF");
+            objects["settingText2"].text = "Device: " + save.settings.device.substr(0, 1).toUpperCase() + save.settings.device.substr(1);
+            objects["settingText3"].text = "NSFW: " + (save.settings.nsfw ? "ON" : "OFF");
+            objects["settingText4"].text = "Name: " + save.name;
+            objects["settingText8"].text = "Ground Animations: " + (save.settings.groundanimations ? "ON" : "OFF");
         }
 
         createSquare("bg", 0, 0, 1, 1, "#c7daff");
@@ -25,6 +26,7 @@ scenes["settings"] = new Scene(
         createText("buttonText", 0.5, 0.95, "Save", { size: 40 });
 
         // Settings
+        // Left side
         createButton("setting1", 0.1, 0.3, 0.4, 0.1, "button", () => {
             save.settings.music = !save.settings.music;
             updateSettings();
@@ -53,39 +55,55 @@ scenes["settings"] = new Scene(
         });
         createText("settingText3", 0.3, 0.675, "?", { size: 40 });
 
-
-
-        createButton("setting4", 0.5, 0.3, 0.4, 0.1, "button", () => {
-            importSave();
-            updateSettings();
-        });
-        createText("settingText4", 0.7, 0.375, "Import", { size: 40 });
-
-        createButton("setting5", 0.5, 0.45, 0.4, 0.1, "button", () => {
-            exportSave();
-            updateSettings();
-        });
-        createText("settingText5", 0.7, 0.525, "Export", { size: 40 });
-
-        createButton("setting6", 0.5, 0.6, 0.4, 0.1, "button", () => {
+        createButton("setting4", 0.1, 0.75, 0.4, 0.1, "button", () => {
             changePlayerName();
             updateSettings();
         });
-        createText("settingText6", 0.7, 0.675, "Name", { size: 40 });
+        createText("settingText4", 0.3, 0.825, "Name", { size: 40 });
+
+
+
+        // Right side
+        createButton("setting5", 0.5, 0.3, 0.4, 0.1, "button", () => {
+            importSave();
+            updateSettings();
+        });
+        createText("settingText5", 0.7, 0.375, "Import", { size: 40 });
+
+        createButton("setting6", 0.5, 0.45, 0.4, 0.1, "button", () => {
+            exportSave();
+            updateSettings();
+        });
+        createText("settingText6", 0.7, 0.525, "Export", { size: 40 });
+
+        createButton("setting7", 0.5, 0.6, 0.4, 0.1, "button", () => {
+            deleteSave();
+            updateSettings();
+        });
+        createText("settingText7", 0.7, 0.675, "Delete Save", { size: 40 });
+
+        createButton("setting8", 0.5, 0.75, 0.4, 0.1, "button", () => {
+            save.settings.groundanimations = !save.settings.groundanimations;
+            updateSettings();
+        });
+        createText("settingText8", 0.7, 0.825, "?", { size: 40 });
 
         // Inite
         updateSettings();
     },
     (tick) => {
         // Loop
-        groundAnimation += tick;
-        objects["menuground"].x -= tick / 2;
-        objects["menuground3"].x -= tick / 2;
-        if (groundAnimation >= 1) {
-            groundAnimation = 0;
-            objects["menuground"].x = 0;
-            objects["menuground3"].x = 0;
+        if (save.settings.groundanimations) {
+            groundAnimation += tick;
+            objects["menuground"].x -= tick / 2;
+            objects["menuground3"].x -= tick / 2;
+            if (groundAnimation >= 1) {
+                groundAnimation = 0;
+                objects["menuground"].x = 0;
+                objects["menuground3"].x = 0;
+            }
         }
 
+        // ...
     }
 );
