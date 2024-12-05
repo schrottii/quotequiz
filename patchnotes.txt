@@ -96,3 +96,20 @@ Version 1.5 (2024-11-30)
 - Re-added the setting to delete the save (which was missing since v1.2)
 - Added a new setting to disable ground animations... they can be distracting
 - Moved the name setting
+
+
+
+Version 1.5.1 (2024-12-05)
+-> Images:
+- Changed the ground, with the goal to make it less distracting
+- Changed Discord and Website images, to be... less birdy?
+
+-> Mode Selection:
+- Added short descriptions of the modes
+- Renamed button from "Save" to "Back"
+- Increased mode button width
+
+-> Other:
+- Updated WGGJ from v1.0 to v1.1
+- Character images go away after the game is over
+- Settings: buttons further apart

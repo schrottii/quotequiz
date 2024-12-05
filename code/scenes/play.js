@@ -59,8 +59,15 @@
         objects["timeRemaining"].w = 0.4 * (currentGame.currentTime / roundDuration);
 
         if (!currentGame.active) {
+            // Game over
             objects["quoteInfo"].text = ((save.trophies - currentGame.trophiesBefore) >= 0 ? "+" : "") + (save.trophies - currentGame.trophiesBefore) + " trophies!";
             objects["quoteInfo2"].text = currentGame.questionsRight + "/" + roundAmount + " right answers in " + currentGame.totalTime.toFixed(1) + "s!";
+
+            objects["characterImage1"].x -= 0.001;
+            objects["characterImage3"].x -= 0.001;
+
+            objects["characterImage2"].x += 0.001;
+            objects["characterImage4"].x += 0.001;
         }
         else {
             objects["quoteInfo"].text = "Question " + currentGame.questionCount + "/" + roundAmount + "  |  " + currentGame.currentTime.toFixed(1) + "s";

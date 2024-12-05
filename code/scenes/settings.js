@@ -27,13 +27,13 @@ scenes["settings"] = new Scene(
 
         // Settings
         // Left side
-        createButton("setting1", 0.1, 0.3, 0.4, 0.1, "button", () => {
+        createButton("setting1", 0.05, 0.3, 0.4, 0.1, "button", () => {
             save.settings.music = !save.settings.music;
             updateSettings();
         });
-        createText("settingText1", 0.3, 0.375, "?", { size: 40 });
+        createText("settingText1", 0.25, 0.375, "?", { size: 40 });
 
-        createButton("setting2", 0.1, 0.45, 0.4, 0.1, "button", () => {
+        createButton("setting2", 0.05, 0.45, 0.4, 0.1, "button", () => {
             switch (save.settings.device) {
                 case "automatic":
                     save.settings.device = "pc";
@@ -47,46 +47,46 @@ scenes["settings"] = new Scene(
             }
             updateSettings();
         });
-        createText("settingText2", 0.3, 0.525, "?", { size: 40 });
+        createText("settingText2", 0.25, 0.525, "?", { size: 40 });
 
-        createButton("setting3", 0.1, 0.6, 0.4, 0.1, "button", () => {
+        createButton("setting3", 0.05, 0.6, 0.4, 0.1, "button", () => {
             save.settings.nsfw = !save.settings.nsfw;
             updateSettings();
         });
-        createText("settingText3", 0.3, 0.675, "?", { size: 40 });
+        createText("settingText3", 0.25, 0.675, "?", { size: 40 });
 
-        createButton("setting4", 0.1, 0.75, 0.4, 0.1, "button", () => {
+        createButton("setting4", 0.05, 0.75, 0.4, 0.1, "button", () => {
             changePlayerName();
             updateSettings();
         });
-        createText("settingText4", 0.3, 0.825, "Name", { size: 40 });
+        createText("settingText4", 0.25, 0.825, "Name", { size: 40 });
 
 
 
         // Right side
-        createButton("setting5", 0.5, 0.3, 0.4, 0.1, "button", () => {
+        createButton("setting5", 0.55, 0.3, 0.4, 0.1, "button", () => {
             importSave();
             updateSettings();
         });
-        createText("settingText5", 0.7, 0.375, "Import", { size: 40 });
+        createText("settingText5", 0.75, 0.375, "Import", { size: 40 });
 
-        createButton("setting6", 0.5, 0.45, 0.4, 0.1, "button", () => {
+        createButton("setting6", 0.55, 0.45, 0.4, 0.1, "button", () => {
             exportSave();
             updateSettings();
         });
-        createText("settingText6", 0.7, 0.525, "Export", { size: 40 });
+        createText("settingText6", 0.75, 0.525, "Export", { size: 40 });
 
-        createButton("setting7", 0.5, 0.6, 0.4, 0.1, "button", () => {
+        createButton("setting7", 0.55, 0.6, 0.4, 0.1, "button", () => {
             deleteSave();
             updateSettings();
         });
-        createText("settingText7", 0.7, 0.675, "Delete Save", { size: 40 });
+        createText("settingText7", 0.75, 0.675, "Delete Save", { size: 40 });
 
-        createButton("setting8", 0.5, 0.75, 0.4, 0.1, "button", () => {
+        createButton("setting8", 0.55, 0.75, 0.4, 0.1, "button", () => {
             save.settings.groundanimations = !save.settings.groundanimations;
             updateSettings();
         });
-        createText("settingText8", 0.7, 0.825, "?", { size: 40 });
+        createText("settingText8", 0.75, 0.825, "?", { size: 40 });
 
         // Inite
         updateSettings();

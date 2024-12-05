@@ -1,5 +1,5 @@
-var gameVersion = "1.5";
-var newestVersion = 7;
+var gameVersion = "1.5.1";
+var newestVersion = 8;
 var selectedVersion = newestVersion;
 
 const patchnotes = {
@@ -83,6 +83,22 @@ const patchnotes = {
             "- Added a new setting to disable ground animations... they can be distracting",
             "- Moved the name setting"
         ],
+    "v1.5.1":
+        [
+            "-> Images:",
+            "- Changed the ground, with the goal to make it less distracting",
+            "- Changed Discord and Website images, to be... less birdy?",
+
+            "-> Mode Selection:",
+            "- Added short descriptions of the modes",
+            `- Renamed button from "Save" to "Back"`,
+            "- Increased mode button width",
+
+            "-> Other:",
+            "- Updated WGGJ from v1.0 to v1.1",
+            "- Character images go away after the game is over",
+            "- Settings: buttons further apart"
+        ]
 }
 
 scenes["patchnotes"] = new Scene(
