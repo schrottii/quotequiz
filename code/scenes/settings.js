@@ -103,7 +103,5 @@ scenes["settings"] = new Scene(
                 objects["menuground3"].x = 0;
             }
         }
-
-        // ...
     }
 );

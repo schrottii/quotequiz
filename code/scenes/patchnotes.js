@@ -1,5 +1,5 @@
-var gameVersion = "1.5.1";
-var newestVersion = 8;
+var gameVersion = "1.6";
+var newestVersion = 9;
 var selectedVersion = newestVersion;
 
 const patchnotes = {
@@ -98,6 +98,42 @@ const patchnotes = {
             "- Updated WGGJ from v1.0 to v1.1",
             "- Character images go away after the game is over",
             "- Settings: buttons further apart"
+        ],
+    "v1.6":
+        [
+            `
+-> Collection:
+- New feature, accessed from main menu
+- Here you can see all quotes you have seen!
+- It shows their ID, author, fastest time, correct answers and wrong answers
+- They are golden if perfected (10/10 trophies)
+- It's scrollable, but the bottom also has page buttons to jump forward or back
+- In the bottom right you can filter by a mode to see which quotes are available in that mode
+
+-> Game Modes: 
+- Mode Selection is now scrollable
+- New modes are only available on certain weekdays
+- New mode: Sugar Rush (3x speed / tue, thu, sat, sun)
+- New mode: Dead Quote Olympics (only the 50 quotes from v1.0 / mon, fri, sat, sun)
+- New mode: New Quotes (only the 50 quotes from v1.6 / wed, thu, fri)
+- New mode: The Forgotten (only users with less than 10 quotes ingame / mon, tue, wed)
+- New mode: Quote Mastery (only non-perfected quotes / sat, sun)
+- Slightly changed display of modes
+- Reworked mode related code
+
+-> Characters:
+- Added 8 new Characters
+- Renamed VrimVram to Meowy
+
+-> Other:
+- Many code and file changes to make it possible to re-use the structure for a different quiz game
+- Quote ID is now visible in top left
+- Changed logo size in main menu
+- Added patch notes button on the left as its old button was replaced by the Collection
+- Changed icons on the left (discord and website)
+- Fixed issue with Delete Save
+- Updated WGGJ from v1.1 to v1.3
+`
         ]
 }
 
@@ -140,6 +176,11 @@ scenes["patchnotes"] = new Scene(
         // Loop
 
         let currentVersionText = patchnotes[Object.keys(patchnotes)[selectedVersion]];
+        if (currentVersionText.length == 1) {
+            currentVersionText = currentVersionText[0].split("\n");
+            currentVersionText.shift();
+        }
+
         for (vt = 0; vt < 32; vt++) {
             if (vt < currentVersionText.length) {
                 objects["text" + vt].text = currentVersionText[vt];

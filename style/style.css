@@ -18,23 +18,3 @@ button{
     margin-bottom: 8px;
     margin-right: 8px;
 }
-
-.currentQuote {
-    font-size: 24px;
-}
-
-.info{
-    background-color: brown;
-    font-size: 30px;
-    text-align: left;
-}
-
-.answerButton {
-    background-color: darkslategray;
-    color: papayawhip;
-    font-size: 32px;
-    width: 40%;
-    margin-right: 4px;
-    min-height: 64px;
-    max-width: 180px;
-}

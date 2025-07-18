@@ -7,17 +7,18 @@
         createImage("menuground2", 0, 0.9, 2, 0.1, "menuground");
 
         // Info like time remaining
-        createSquare("quoteInfoBG", 0.3, 0.15, 0.4, 0.11, "#A1B0CC");
-        createText("quoteInfo", 0.5, 0.25, "", { size: 40 });
-        createText("quoteInfo2", 0.5, 0.2, "", { size: 40 });
+        createSquare("questionInfoBG", 0.3, 0.15, 0.4, 0.11, "#A1B0CC");
+        createText("questionInfo", 0.5, 0.25, "", { size: 40 });
+        createText("questionInfo2", 0.5, 0.2, "", { size: 40 });
+        createText("questionID", 0.05, 0.25, "", { size: 40, align: "left" });
 
         createSquare("timeRemainingBG", 0.3, 0.26, 0.4, 0.02, "black");
         createSquare("timeRemaining", 0.3, 0.26, 0, 0.02, "yellow");
 
-        // Quote content (the quote itself)
-        createSquare("quoteTextBG", 0.18, 0.28, 0.64, 0.12, "white");
-        createText("quoteText", 0.5, 0.34, "...", { size: 40 });
-        createText("quoteText2", 0.5, 0.38, "", { size: 40 });
+        // question content (the question itself)
+        createSquare("questionTextBG", 0.18, 0.28, 0.64, 0.12, "white");
+        createText("questionText", 0.5, 0.34, "...", { size: 40 });
+        createText("questionText2", 0.5, 0.38, "", { size: 40 });
 
         // Buttons
         createButton("answer1", 0.1, 0.6, 0.3, 0.1, "#000000", () => { clickButton(0) })
@@ -50,18 +51,18 @@
             }
         }
 
-        // Update quote text
-        let quoteDesc = getQuote(currentGame.currentQuote).text;
-        objects["quoteText"].text = quoteDesc.length > 64 ? quoteDesc.substr(0, quoteDesc.substr(0, 64).lastIndexOf(" ")) : quoteDesc;
-        objects["quoteText2"].text = quoteDesc.length > 64 ? quoteDesc.substr(quoteDesc.substr(0, 64).lastIndexOf(" ") + 1) : "";
+        // Update question text (split into two lines)
+        let qText = getQuestion(currentGame.currentQuestionID).text;
+        objects["questionText"].text = qText.length > 64 ? qText.substr(0, qText.substr(0, 64).lastIndexOf(" ")) : qText;
+        objects["questionText2"].text = qText.length > 64 ? qText.substr(qText.substr(0, 64).lastIndexOf(" ") + 1) : "";
 
         // Update info area
         objects["timeRemaining"].w = 0.4 * (currentGame.currentTime / roundDuration);
 
         if (!currentGame.active) {
             // Game over
-            objects["quoteInfo"].text = ((save.trophies - currentGame.trophiesBefore) >= 0 ? "+" : "") + (save.trophies - currentGame.trophiesBefore) + " trophies!";
-            objects["quoteInfo2"].text = currentGame.questionsRight + "/" + roundAmount + " right answers in " + currentGame.totalTime.toFixed(1) + "s!";
+            objects["questionInfo"].text = ((save.trophies - currentGame.trophiesBefore) >= 0 ? "+" : "") + (save.trophies - currentGame.trophiesBefore) + " trophies!";
+            objects["questionInfo2"].text = currentGame.questionsRight + "/" + roundAmount + " right answers in " + currentGame.totalTime.toFixed(1) + "s!";
 
             objects["characterImage1"].x -= 0.001;
             objects["characterImage3"].x -= 0.001;
@@ -70,10 +71,11 @@
             objects["characterImage4"].x += 0.001;
         }
         else {
-            objects["quoteInfo"].text = "Question " + currentGame.questionCount + "/" + roundAmount + "  |  " + currentGame.currentTime.toFixed(1) + "s";
+            objects["questionInfo"].text = "Question " + currentGame.questionCount + "/" + roundAmount + "  |  " + currentGame.currentTime.toFixed(1) + "s";
 
-            if (currentGame.currentTime <= roundDuration - 1) objects["quoteInfo2"].text = (Math.ceil(save.answers[currentGame.currentQuote][0]) == 10 ? "⭐" : Math.ceil(save.answers[currentGame.currentQuote][0]) + "/10");
-            else objects["quoteInfo2"].text = (Math.ceil(save.answers[currentGame.currentQuote][0]) == 10 ? "⭐ " : "") + (["", "Right!", "Wrong!"][currentGame.previousAnswer]) + (currentGame.mode == "practice" ? " Correct: " + getCharacterByName(currentGame.previousWinner).displayName : "");
+            if (currentGame.currentTime <= roundDuration - 1) objects["questionInfo2"].text = (Math.ceil(save.answers[currentGame.currentQuestionID][0]) == 10 ? "⭐" : Math.ceil(save.answers[currentGame.currentQuestionID][0]) + "/10");
+            else objects["questionInfo2"].text = (Math.ceil(save.answers[currentGame.currentQuestionID][0]) == 10 ? "⭐ " : "") + (["", "Right!", "Wrong!"][currentGame.previousAnswer]) + (currentGame.mode == "practice" ? " Correct: " + getCharacterByName(currentGame.previousWinner).displayName : "");
+            objects["questionID"].text = getQuestion(currentGame.currentQuestionID).id;
         }
 
         // Update buttons
@@ -98,7 +100,7 @@
         // Character images
         for (let img = 0; img < 4; img++) {
             objects["characterImage" + (img + 1)].w = objects["characterImage" + (img + 1)].h = isMobile() ? 0.05 : 0.1;
-            if (currentGame.currentPeople.length > 3 && currentGame.currentTime <= roundDuration - 1) objects["characterImage" + (img + 1)].image = getCharacterByName(getQuote(currentGame.currentQuote).user).imageSrc == "characters/unknown" ? "characters/unknown" : getCharacterByName(currentGame.currentPeople[img]).imageSrc;
+            if (currentGame.currentPeople.length > 3 && currentGame.currentTime <= roundDuration - 1) objects["characterImage" + (img + 1)].image = getCharacterByName(getQuestion(currentGame.currentQuestionID).user).imageSrc == "characters/unknown" ? "characters/unknown" : getCharacterByName(currentGame.currentPeople[img]).imageSrc;
             else objects["characterImage" + (img + 1)].image = "characters/unknown";
         }
     }
